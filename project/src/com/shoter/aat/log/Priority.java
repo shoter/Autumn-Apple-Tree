@@ -14,14 +14,8 @@ public enum Priority
 		this.type = value;
 	}
 	
-	int get()
-	{
-		return type;
-	}
-	
 	@Override
 	public String toString() {
-		String name = super.toString();
 		return super.toString().toLowerCase();
 	}
 	

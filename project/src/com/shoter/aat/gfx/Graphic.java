@@ -1,4 +1,4 @@
-package com.shoter.aat;
+package com.shoter.aat.gfx;
 
 import java.awt.Graphics2D;
 import java.util.Collection;
@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.shoter.gfx.Sprite;
+import com.shoter.aat.Board;
 
 public class Graphic
 {
@@ -24,7 +24,7 @@ public class Graphic
 			drawQueue[i] = new LinkedList<Sprite>();
 	}
 	
-	public void Draw(Graphics2D g2d)
+	public void draw(Graphics2D g2d)
 	{
 		for(Queue<Sprite> queue : drawQueue)
 		{
@@ -32,18 +32,24 @@ public class Graphic
 			{
 				sprite.Draw(g2d);
 			}
-			queue.clear();
 		}
 	}
 	
-	public void addToQueue(Sprite sprite, int drawOrder)
+	public void addToQueue(Sprite sprite)
 	{
-		drawQueue[drawOrder].add(sprite);
+		drawQueue[sprite.drawOrder].add(sprite);
 	}
 	
 	public static Graphic get()
 	{
 		return instance;
+	}
+	
+	public void repaint()
+	{
+		for(Queue<Sprite> queue : drawQueue)
+		queue.clear();
+		
 	}
 
 }
