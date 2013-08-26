@@ -9,10 +9,12 @@ public class StateMachine
 		if(currentState != null)
 			currentState.onDestroy();
 		newState.onCreate();
+		currentState = newState;
 	}
 	
 	public static void tick()
 	{
-		currentState.tick();
+		if(currentState != null)
+			currentState.tick();
 	}
 }

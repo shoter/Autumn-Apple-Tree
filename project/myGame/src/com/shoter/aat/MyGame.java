@@ -2,13 +2,7 @@ package com.shoter.aat;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.shoter.game.Logic;
 import com.shoter.gfx.Graphic;
 
@@ -20,6 +14,9 @@ public class MyGame implements ApplicationListener {
 	public void create() {		
 		batch = new SpriteBatch();
 		initSingletons();
+		
+		MyInputProcessor inputProcessor = new MyInputProcessor();
+		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	@Override
@@ -48,8 +45,8 @@ public class MyGame implements ApplicationListener {
 	
 	void initSingletons()
 	{
-		Logic.create();
 		Graphic.create(batch);
+		Logic.create();
 		Game.create();
 	}
 }

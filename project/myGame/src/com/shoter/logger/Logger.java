@@ -105,7 +105,7 @@ public class Logger
 	 */
 	public static void i(String tag, String message)
 	{
-		log(tag, message, false, Priority.DEBUG);
+		log(tag, message, false, Priority.INFO);
 	}
 	
 	/**

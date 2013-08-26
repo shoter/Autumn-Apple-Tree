@@ -1,11 +1,14 @@
 package com.shoter.state;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.shoter.game.AppleFactory;
+import com.shoter.game.Player;
 import com.shoter.gfx.Graphic;
 
 public class GameState extends State
 {
 	Sprite ground, tree;
+	Player player;
 	
 	@Override
 	public void onCreate() {
@@ -17,8 +20,12 @@ public class GameState extends State
 		tree = new Sprite(graphic.textureAtlas.getTexture("tree"));
 		tree.setPosition(320 - tree.getWidth()/2, 80);
 		
-		graphic.addToQueue(ground, 1);
-		graphic.addToQueue(tree, 2);
+		graphic.addToQueue(ground, 2);
+		graphic.addToQueue(tree, 1);
+		
+		player = new Player();
+		
+		AppleFactory.tick();
 	}
 	
 	@Override
@@ -29,7 +36,7 @@ public class GameState extends State
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
+		AppleFactory.tick();
 		
 	}
 }

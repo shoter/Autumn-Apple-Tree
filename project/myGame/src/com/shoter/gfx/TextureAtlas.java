@@ -22,8 +22,11 @@ public class TextureAtlas
 	{
 		Texture.setEnforcePotImages(false);
 		addTexture("ground.png", "ground");
-		addTexture("apple_bad.png", "bad apple");
+		addTexture("apple_bad.png", "bad_apple");
+		addTexture("apple_red.png", "good_apple");
+		addTexture("apple_good.png", "normal_apple");
 		addTexture("tree.png", "tree");
+		addTexture("bowl.png", "bowl");
 	}
 	
 	
@@ -48,7 +51,10 @@ public class TextureAtlas
 	public Texture getTexture(String name)
 	{
 		name = name.toLowerCase();
-		return textureMap.get(name);
+		Texture texture =  textureMap.get(name);
+		if(texture == null)
+		Logger.e("Texture_Atlas", "Texture " + name + " not found");
+		return texture;
 	}
 	
 	void destroy()
