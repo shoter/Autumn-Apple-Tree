@@ -11,8 +11,11 @@ import java.util.Date;
 public class Logger
 {
 	
+	
+	
 	static File debugFile;
 	static PrintWriter writer;
+	static Priority current_priority = Priority.INFO;
 	
 	public static void setLoggerFile(File file)
 	{
@@ -25,7 +28,7 @@ public class Logger
 				debugFile.createNewFile();
 			} catch (IOException e)
 			{
-				d("LOGGER", "Setting logger file failed");
+				Logger.e("LOGGER", "Setting logger file failed");
 				e.printStackTrace();
 			}
 		}
@@ -36,14 +39,13 @@ public class Logger
 		setLoggerFile(new File("log.txt"));
 	}
 	
-	/**
-	 * Writes debug message
-	 * 
-	 * @param tag tag of the message
-	 * @param message message to write
-	 * @param writeToFile control whether to write to file or not
-	 */
-	public static void d(String tag, String message, boolean writeToFile)
+	boolean canWrite(Priority priority)
+	{
+		return current_priority.type <= priority.type;
+	}
+	
+	
+	static  void log(String tag, String message, boolean writeToFile, Priority priority)
 	{
 		if(debugFile == null)
 			setDefaultLoggerFile();
@@ -53,7 +55,7 @@ public class Logger
 		
 		String time = dateFormat.format(date);
 		
-		message = "["+time+"]{" + tag + "} - " + message;
+		message =  priority.toString() + "|["+time+"]{" + tag + "} - " + message;
 		
 		System.out.println(message);
 		if(writeToFile)
@@ -65,12 +67,9 @@ public class Logger
 					writer.close();
 				} catch (IOException e)
 				{
-					d("LOGGER", "Writing log exception!");
+					Logger.e("LOGGER", "Writing log exception!");
 					e.printStackTrace();
 				}
-
-			
-			
 		}
 	}
 	
@@ -82,6 +81,87 @@ public class Logger
 	 */
 	public static void d(String tag, String message)
 	{
-		d(tag, message, false);
+		log(tag, message, false, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes debug message
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 * @param writeToFile control whether to write to file or not
+	 */
+	public static void d(String tag, String message, boolean writeToFile)
+	{
+		log(tag, message, writeToFile, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes info message on the console
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 */
+	public static void i(String tag, String message)
+	{
+		log(tag, message, false, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes info message
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 * @param writeToFile control whether to write to file or not
+	 */
+	public static void i(String tag, String message, boolean writeToFile)
+	{
+		log(tag, message, writeToFile, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes error on the console
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 */
+	public static void e(String tag, String message)
+	{
+		log(tag, message, false, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes error message
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 * @param writeToFile control whether to write to file or not
+	 */
+	public static void e(String tag, String message, boolean writeToFile)
+	{
+		log(tag, message, writeToFile, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes warning on the console
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 */
+	public static void w(String tag, String message)
+	{
+		log(tag, message, false, Priority.DEBUG);
+	}
+	
+	/**
+	 * Writes warning message
+	 * 
+	 * @param tag tag of the message
+	 * @param message message to write
+	 * @param writeToFile control whether to write to file or not
+	 */
+	public static void w(String tag, String message, boolean writeToFile)
+	{
+		log(tag, message, writeToFile, Priority.DEBUG);
 	}
 }
