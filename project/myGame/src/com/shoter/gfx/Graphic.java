@@ -1,12 +1,13 @@
 package com.shoter.gfx;
 
-import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.shoter.game.Logic;
 import com.shoter.logger.Logger;
 
 public class Graphic
@@ -14,6 +15,9 @@ public class Graphic
 	SpriteBatch batch;
 	static int queueCount = 5;
 	static Graphic instance;
+	public TextureAtlas textureAtlas;
+	
+	Sprite ground; //it will be ALWAYS displayed
 	
 	Queue<Sprite>[] drawQueue = new Queue[queueCount]; 
 	
@@ -23,6 +27,12 @@ public class Graphic
 		this.batch = batch;
 		for(int i = 0;i < queueCount; i++)
 			drawQueue[i] = new LinkedList<Sprite>();
+		
+		textureAtlas = new TextureAtlas();
+		
+		ground = new Sprite(textureAtlas.getTexture("ground"));
+		
+		addToQueue(ground, 0);
 	}
 	
 	public static void create(SpriteBatch batch)
@@ -33,8 +43,12 @@ public class Graphic
 			Logger.w("LOGIC", "Trying to create new Graphic when other logic exist", true);
 	}
 	
-	public void draw(Graphics2D g2d)
+	public void draw()
 	{
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+	
+		batch.begin();
 		for(Queue<Sprite> queue : drawQueue)
 		{
 			for(Sprite sprite : queue)
@@ -42,6 +56,7 @@ public class Graphic
 				sprite.draw(batch);
 			}
 		}
+		batch.end();
 	}
 	
 	public void addToQueue(Sprite sprite,int drawOrder)
@@ -58,7 +73,11 @@ public class Graphic
 	{
 		for(Queue<Sprite> queue : drawQueue)
 		queue.clear();
-		
 	}
 
+	
+	public void destroy()
+	{
+		textureAtlas.destroy();
+	}
 }
