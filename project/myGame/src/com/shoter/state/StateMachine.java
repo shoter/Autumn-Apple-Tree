@@ -10,4 +10,9 @@ public class StateMachine
 			currentState.onDestroy();
 		newState.onCreate();
 	}
+	
+	public static void tick()
+	{
+		currentState.tick();
+	}
 }

@@ -1,6 +1,6 @@
 package com.shoter.state;
 
-public class State
+public abstract class State
 {	
 	public void onCreate()
 	{
@@ -11,4 +11,6 @@ public class State
 	{
 		
 	}
+	
+	public abstract void tick();
 }

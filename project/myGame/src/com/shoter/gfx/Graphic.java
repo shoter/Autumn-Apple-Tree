@@ -80,4 +80,24 @@ public class Graphic
 	{
 		textureAtlas.destroy();
 	}
+	
+	public void clear()
+	{
+		for(Queue<Sprite> queue : drawQueue)
+		{
+			queue.clear();
+		}
+	}
+	
+	public void remove(Sprite sprite)
+	{
+		for(Queue<Sprite> queue : drawQueue)
+		{
+			for(Sprite queueSprite : queue)
+			{ 	
+				if(sprite.equals(queueSprite))
+					queue.remove(sprite);
+			}
+		}
+	}
 }
