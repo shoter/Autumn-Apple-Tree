@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.shoter.game.Logic;
+import com.shoter.gfx.Graphic;
 
 public class MyGame implements ApplicationListener {
 	private OrthographicCamera camera;
@@ -20,6 +22,8 @@ public class MyGame implements ApplicationListener {
 	public void create() {		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
+		
+		initSingletons();
 		
 		camera = new OrthographicCamera(1, h/w);
 		batch = new SpriteBatch();
@@ -51,6 +55,8 @@ public class MyGame implements ApplicationListener {
 		sprite.draw(batch);
 		batch.end();
 	}
+	
+	
 
 	@Override
 	public void resize(int width, int height) {
@@ -62,5 +68,12 @@ public class MyGame implements ApplicationListener {
 
 	@Override
 	public void resume() {
+	}
+	
+	void initSingletons()
+	{
+		Logic.create();
+		Graphic.create(batch);
+		Game.create();
 	}
 }
