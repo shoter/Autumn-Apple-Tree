@@ -2,6 +2,7 @@ package com.shoter.aat;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -72,6 +73,7 @@ public class MyGame implements ApplicationListener {
 	void initSingletons()
 	{
 		TextureAtlas.init();
+		SoundAtlas.init();
 		AppleFactory.init();
 	}
 }
