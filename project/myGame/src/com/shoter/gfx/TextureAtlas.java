@@ -23,6 +23,8 @@ public class TextureAtlas
 		addTexture("apple_good.png", "normal_apple");
 		addTexture("tree.png", "tree");
 		addTexture("bowl.png", "bowl");
+		addTexture("leaf.png", "leaf");
+		addTexture("leaf2.png", "leaf2");
 	}
 	
 	

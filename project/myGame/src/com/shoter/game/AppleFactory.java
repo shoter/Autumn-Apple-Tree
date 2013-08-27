@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.aat.MyGame;
 import com.shoter.aat.Window;
 
 public class AppleFactory
@@ -58,7 +59,7 @@ public class AppleFactory
 	{
 		
 		Apple newApple = apple.clone();
-		newApple.setPosition(getCoordinatesInsideRectangle(spawnRectangle));
+		newApple.setPosition(MyGame.getCoordinatesInsideRectangle(spawnRectangle));
 		newApple.setSpeed(new Vector2(0,-1));
 		newApple.setAcceleration(new Vector2(0,-0.025f));
 		
@@ -67,14 +68,7 @@ public class AppleFactory
 		window.addToQueue(newApple, 5);
 	}
 	
-	static Vector2 getCoordinatesInsideRectangle(Rectangle rectangle)
-	{
-		Random rand = new Random();
-		Vector2 retValue = new Vector2();
-		retValue.x = rectangle.x + rand.nextInt((int)rectangle.width);
-		retValue.y = rectangle.y + rand.nextInt((int)rectangle.height);
-		return retValue;
-	}
+	
 	
 	public void onAppleSpawn(Apple apple)
 	{

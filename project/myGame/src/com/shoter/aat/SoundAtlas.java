@@ -35,7 +35,7 @@ public class SoundAtlas
 		name = name.toLowerCase();
 		Sound sound =  soundMap.get(name);
 		if(sound == null)
-		Logger.e("Sound_Atlas", "Sound " + name + " not found");
+			Logger.e("Sound_Atlas", "Sound " + name + " not found");
 		return sound;
 	}
 	

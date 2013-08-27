@@ -1,12 +1,17 @@
 package com.shoter.aat;
 
+import java.util.Random;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.shoter.game.AppleFactory;
+import com.shoter.game.LeafFactory;
 import com.shoter.gfx.TextureAtlas;
 
 public class MyGame implements ApplicationListener {
@@ -74,6 +79,15 @@ public class MyGame implements ApplicationListener {
 	{
 		TextureAtlas.init();
 		SoundAtlas.init();
+		LeafFactory.init();
 		AppleFactory.init();
+	}
+	public static Vector2 getCoordinatesInsideRectangle(Rectangle rectangle)
+	{
+		Random rand = new Random();
+		Vector2 retValue = new Vector2();
+		retValue.x = rectangle.x + rand.nextInt((int)rectangle.width);
+		retValue.y = rectangle.y + rand.nextInt((int)rectangle.height);
+		return retValue;
 	}
 }

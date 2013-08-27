@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.aat.SoundAtlas;
 import com.shoter.logger.Logger;
 
 public class Wind
@@ -19,6 +21,7 @@ public class Wind
 	public float maxStrength = 0.2f;
 	
 	int windStrengthDebug[] = new int[640];
+	int windStrengthDebugY[] = new int[640];
 	int currentDebug = 0;
 	
 	int timeFromHeavyWindBlow = 0;
@@ -27,7 +30,13 @@ public class Wind
 	public Wind()
 	{
 		for(int i = 0;i < 640; i++)
+		{
 			windStrengthDebug[i] = 0;
+			windStrengthDebugY[i] = 0;
+		}
+		
+		direction.x = rand.nextFloat() * maxStrength;
+		direction.y = (rand.nextFloat() * maxStrength) / 100;
 	}
 	
 	public void tick()
@@ -42,11 +51,17 @@ public class Wind
 			}
 			
 			direction.x += windBlow.getStrength();
+			direction.y += windBlow.getStrength() / 100f;
 			
 			if(direction.x > maxStrength)
 				direction.x = maxStrength;
 			else if(direction.x < -maxStrength)
 				direction.x = -maxStrength;
+			
+			if(direction.y > maxStrength/10)
+				direction.y = maxStrength/10;
+			else if(direction.y < -maxStrength/10)
+				direction.y = -maxStrength/10;
 			
 			
 			
@@ -62,12 +77,14 @@ public class Wind
 			timeFromHeavyWindBlow = 0;
 		}
 		
-		direction.x -= direction.x / 100f;
+		direction.x -= direction.x / 200f;
+		direction.y -= direction.y / 800f;
 		
 		float strength = (direction.x / maxStrength);
 		strength *= 100;
 		
-		windStrengthDebug[currentDebug++] = (int) strength;
+		windStrengthDebug[currentDebug] = (int) strength;
+		windStrengthDebugY[currentDebug++] = (int) (direction.y / ((float)maxStrength/10f) * 100f);
 		if(rand.nextInt(1000) > 995)
 		{
 			Logger.i("WIATR", "Nowy wiatr");
@@ -99,6 +116,17 @@ public class Wind
 				 SR.setColor(Color.BLUE);
 				 SR.point(i, -windStrengthDebug[i], 0);
 			 }
+			 
+			 if(windStrengthDebugY[i] > 0f)
+			 {
+				 SR.setColor(Color.PINK);
+				 SR.point(i, windStrengthDebugY[i], 0);
+			 }
+			 else
+			 {
+				 SR.setColor(Color.GREEN);
+				 SR.point(i, -windStrengthDebugY[i], 0);
+			 }
 		 
 		 }
 		 SR.end();
@@ -112,6 +140,8 @@ public class Wind
 	
 	public void onHeavyWindBlow(boolean isGoingLeft, WindBlow windBlow)
 	{
+		Sound blowSound = SoundAtlas.getSound("wind1");
+		blowSound.play();
 		Logger.i("WIATR", "Silny wiatr! Lepiej uwa¿aæ :)");
 	}
 	
