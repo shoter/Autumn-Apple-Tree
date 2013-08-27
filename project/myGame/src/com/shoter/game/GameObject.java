@@ -4,13 +4,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.gfx.TextureAtlas;
 
 public class GameObject
 {
 	Sprite sprite;
 	Vector2 position = new Vector2(0f,0f);
 	float rotation;
-	Rectangle rectangle;
+	Rectangle rectangle = new Rectangle();
 	float size;
 	
 	String texture; //for copying.
@@ -27,6 +28,8 @@ public class GameObject
 	
 	public GameObject(String texture, Vector2 position, float rotation, float size,  Rectangle rectangle)
 	{
+		sprite = new Sprite(TextureAtlas.getTexture(texture));
+		
 		this.texture = texture;
 		this.rectangle.set(rectangle);
 		setPosition(position);
@@ -38,7 +41,7 @@ public class GameObject
 	
 	public void setPosition(Vector2 position)
 	{
-		setPosition(position.x, position.y);
+		setPosition(position.x - sprite.getWidth() / 2, position.y - sprite.getHeight() / 2);
 		
 	}
 	
@@ -70,7 +73,6 @@ public class GameObject
 	
 	public void Draw(SpriteBatch spriteBatch)
 	{
-		
 		sprite.draw(spriteBatch);
 	}
 	

@@ -1,19 +1,20 @@
 package com.shoter.aat;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.shoter.logger.Logger;
 
 public class WindowManager
 {
-	GameWindow currentWindow = null;
-	GameWindow nextWindow = null;
+	static Window currentWindow = null;
+	static Window nextWindow = null;
 	
-	public void prepareToChangeWindow(GameWindow nextWindow)
+	public static void prepareToChangeWindow(Window nextWindow)
 	{
-		this.nextWindow = nextWindow;
+		WindowManager.nextWindow = nextWindow;
 		Logger.d("WindowManager", "Preparing to change window to " + nextWindow.toString());
 	}
 	
-	void changeWindow()
+	static void changeWindow()
 	{
 		if(currentWindow != null)
 			currentWindow.onDestroy();
@@ -25,10 +26,19 @@ public class WindowManager
 		nextWindow = null;
 	}
 	
-	public void tick()
+	public static void tick()
 	{
 		if(nextWindow != null)
 			changeWindow();
+		
+		if(currentWindow != null)
+			currentWindow.tick();
+	}
+	
+	public static void draw(SpriteBatch spriteBatch)
+	{
+		if(currentWindow != null)
+			currentWindow.draw(spriteBatch);
 	}
 	
 	
