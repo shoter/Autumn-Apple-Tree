@@ -30,8 +30,6 @@ public class TextureAtlas
 	{
 		name = name.toLowerCase();
 		path = "gfx/" + path;
-		File file = new File(path);
-		//file = file.getAbsoluteFile();
 
 		Texture texture = new Texture(Gdx.files.internal(path));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
