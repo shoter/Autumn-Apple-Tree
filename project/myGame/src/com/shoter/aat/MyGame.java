@@ -5,13 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.shoter.game.AppleFactory;
 import com.shoter.gfx.TextureAtlas;
 
 public class MyGame implements ApplicationListener {
 	
 	private SpriteBatch batch;
 	Timer tickTimer;
-	private static int FRAME_PER_SECOND = 30;
+	private static int FRAME_PER_SECOND = 60;
+	boolean logicDone = false;
 	
 	@Override
 	public void create() {		
@@ -41,12 +43,17 @@ public class MyGame implements ApplicationListener {
 
 	@Override
 	public void render() {	
+		if(logicDone)
+		{
 		WindowManager.draw(batch);
+		logicDone = false;
+		}
 	}
 	
 	public void tick()
 	{
 		WindowManager.tick();
+		logicDone = true;
 	}
 	
 
@@ -65,5 +72,6 @@ public class MyGame implements ApplicationListener {
 	void initSingletons()
 	{
 		TextureAtlas.init();
+		AppleFactory.init();
 	}
 }

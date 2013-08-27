@@ -3,22 +3,21 @@ package com.shoter.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.logger.Logger;
 
 public class Bowl extends GameObject
 {
 	Player player; 
-	List<Apple> apples = new ArrayList<Apple>();
+	List<CatchedApple> apples = new ArrayList<CatchedApple>();
 	public int capacity = 10;
+	public static int BOWL_DEPTH = 2; //pixels
 	
 	public Bowl(Player player)
 	{
 		super("bowl", Vector2.Zero);
 		this.player = player;
+		setPosition(position.x, 100);
 		
 	}
 	
@@ -26,26 +25,35 @@ public class Bowl extends GameObject
 	{
 		if(isBowlFull())
 			onBowlFull();
-		for( Apple apple : appleList)
-		{
-			tryToCatch(apple);
-		}
+		
 		setPosition(Mouse.x, position.y);
+		
+		for(CatchedApple apple : apples)
+			apple.tick();
+		
+		for( int i = 0; i < appleList.size(); i++)
+		{
+			Apple apple = appleList.get(i);
+			
+			if(tryToCatch(apple))
+				appleList.remove(apple);
+		}
+		
 	}
 	
 	public int bowlScore()
 	{
 		int retVal = 0;
-		for(Apple apple : apples)
+		for(CatchedApple apple : apples)
 		{
-			retVal += apple.score;
+			retVal += apple.getScore();
 		}
 		return retVal;
 	}
 	
 	public boolean isBowlFull()
 	{
-		return capacity >= apples.size();
+		return  apples.size() >= capacity;
 	}
 	
 	void onBowlFull()
@@ -61,20 +69,23 @@ public class Bowl extends GameObject
 		
 	}
 	
-	public void tryToCatch(Apple apple)
+	public boolean tryToCatch(Apple apple)
 	{
 		if(collide(apple))
 		{
 			apple.destroy();
-			apples.add(apple);
+			apples.add(new CatchedApple(apple, this));
+			return true;
 		}
+		return false;
 	}
 	
 	@Override
 	public void Draw(SpriteBatch spriteBatch) {
-		// TODO Auto-generated method stub
+		for(CatchedApple apple : apples)
+			apple.draw(spriteBatch);
+		
 		super.Draw(spriteBatch);
-		Logger.i("BOWL", "drawn");
 	}
 	
 	

@@ -5,7 +5,7 @@ import com.shoter.logger.Logger;
 
 public class WindowManager
 {
-	static Window currentWindow = null;
+	public static Window currentWindow = null;
 	static Window nextWindow = null;
 	
 	public static void prepareToChangeWindow(Window nextWindow)

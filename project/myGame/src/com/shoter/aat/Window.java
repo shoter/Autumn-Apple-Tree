@@ -3,7 +3,9 @@ package com.shoter.aat;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.shoter.game.GameObject;
 
@@ -34,6 +36,10 @@ public class Window
 	
 	public void draw(SpriteBatch spriteBatch)
 	{
+		Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		
 		spriteBatch.begin();
 		for(Queue<GameObject> queue : drawQueue)
 			for(GameObject object : queue)
@@ -46,6 +52,12 @@ public class Window
 	public void addToQueue(GameObject object, int order)
 	{
 		drawQueue[order].add(object);
+	}
+	
+	public void removeObjectFromQueue(GameObject object)
+	{
+		for(Queue<GameObject> queue : drawQueue)
+			while(queue.remove(object));
 	}
 	
 	public void onCreate()

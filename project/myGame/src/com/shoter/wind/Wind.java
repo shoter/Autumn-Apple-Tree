@@ -1,0 +1,129 @@
+package com.shoter.wind;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
+import com.shoter.logger.Logger;
+
+public class Wind
+{
+	public Vector2 direction = new Vector2(0f,0f);
+	Random rand = new Random();
+	List<WindBlow> windBlows = new ArrayList<WindBlow>();
+	ShapeRenderer SR = new ShapeRenderer();
+	public float maxStrength = 0.2f;
+	
+	int windStrengthDebug[] = new int[640];
+	int currentDebug = 0;
+	
+	int timeFromHeavyWindBlow = 0;
+	static int timeBetweenHeavyWindBlow = 300;
+	
+	public Wind()
+	{
+		for(int i = 0;i < 640; i++)
+			windStrengthDebug[i] = 0;
+	}
+	
+	public void tick()
+	{
+		for(int i = 0;i < windBlows.size(); i++)
+		{
+			WindBlow windBlow = windBlows.get(i);
+			if(windBlow.isDone())
+			{
+				windBlows.remove(i);
+				continue;
+			}
+			
+			direction.x += windBlow.getStrength();
+			
+			if(direction.x > maxStrength)
+				direction.x = maxStrength;
+			else if(direction.x < -maxStrength)
+				direction.x = -maxStrength;
+			
+			
+			
+			windBlow.tick();
+			
+		}
+		
+		if(isHeavyBlow())
+		{
+			WindBlow heavyWindBlow = generateHeavyBlow();
+			onHeavyWindBlow(heavyWindBlow.strength < 0f, heavyWindBlow);
+			windBlows.add(heavyWindBlow);
+			timeFromHeavyWindBlow = 0;
+		}
+		
+		direction.x -= direction.x / 100f;
+		
+		float strength = (direction.x / maxStrength);
+		strength *= 100;
+		
+		windStrengthDebug[currentDebug++] = (int) strength;
+		if(rand.nextInt(1000) > 995)
+		{
+			Logger.i("WIATR", "Nowy wiatr");
+			windBlows.add(new WindBlow(600, (-0.5f + rand.nextFloat()) / 300f));
+		}
+		currentDebug %= 640;
+		timeFromHeavyWindBlow++;
+	}
+	
+	public void debug_draw()
+	{
+		 SR.begin(ShapeType.Filled );
+		 SR.setColor(Color.WHITE);
+		 SR.rect(0, 0, 640, 100);
+		 
+		 
+		 SR.end();
+		 SR.begin(ShapeType.Point );
+		 
+		 for(int i = 0;i < 640;i++)
+		 {
+			 if(windStrengthDebug[i] > 0f)
+			 {
+				 SR.setColor(Color.RED);
+				 SR.point(i, windStrengthDebug[i], 0);
+			 }
+			 else
+			 {
+				 SR.setColor(Color.BLUE);
+				 SR.point(i, -windStrengthDebug[i], 0);
+			 }
+		 
+		 }
+		 SR.end();
+	}
+	
+	public WindBlow generateHeavyBlow()
+	{
+		boolean isMinus = rand.nextBoolean();
+		return new WindBlow(180, isMinus?0.05f:-0.05f);
+	}
+	
+	public void onHeavyWindBlow(boolean isGoingLeft, WindBlow windBlow)
+	{
+		Logger.i("WIATR", "Silny wiatr! Lepiej uwa¿aæ :)");
+	}
+	
+	boolean isHeavyBlow()
+	{
+		double chance = rand.nextDouble();
+		if(timeFromHeavyWindBlow > timeBetweenHeavyWindBlow)
+		{
+			double propability = (timeFromHeavyWindBlow - timeBetweenHeavyWindBlow) / (timeBetweenHeavyWindBlow * 2);
+			if(chance < propability)
+				return true;
+		}
+		return false;
+	}
+}

@@ -1,37 +1,83 @@
 package com.shoter.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import java.util.Random;
+
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.gfx.TextureAtlas;
+import com.shoter.aat.Window;
 
 public class AppleFactory
 {
 	static Apple badApple, normalApple, goodApple;
 	
-	static int delay = 12, current_delay = 0;
+	Window window;
+	int delay = 60, current_delay = 0;
+	Rectangle spawnRectangle;
+	
+	public AppleFactory(Window window, Rectangle spawnRectangle)
+	{
+		this.window = window;
+		this.spawnRectangle = spawnRectangle;
+	}
 	
 	public static void init()
 	{
 		badApple = new Apple("bad_apple", new Vector2(0f,0f));
 		goodApple = new Apple("good_apple", new Vector2(0f,0f));
 		normalApple = new Apple("normal_apple", new Vector2(0f,0f));
+		
+		badApple.setMass(3.8f);
+		goodApple.setMass(3.5f);
+		normalApple.setMass(4.4f);
 	}
 	
-	public static void tick()
+	public void tick()
 	{
 		current_delay++;
 		if(current_delay > delay)
 		{
-			spawnApple(badApple);
+			Random rand = new Random();
+			switch(rand.nextInt(3))
+			{
+				case 0:
+					spawnApple(badApple);
+				break;
+				case 1:
+					spawnApple(normalApple);
+					break;
+					
+				case 2:
+					spawnApple(goodApple);
+					break;
+			}
 			current_delay = 0;
 		}
 	}
 	
-	public static void spawnApple(Apple apple)
+	public  void spawnApple(Apple apple)
 	{
+		
 		Apple newApple = apple.clone();
-		newApple.setPosition(new Vector2(320,300));
+		newApple.setPosition(getCoordinatesInsideRectangle(spawnRectangle));
 		newApple.setSpeed(new Vector2(0,-1));
-		newApple.setAcceleration(new Vector2(0,-0.01f));
+		newApple.setAcceleration(new Vector2(0,-0.025f));
+		
+		onAppleSpawn(newApple);
+		
+		window.addToQueue(newApple, 5);
+	}
+	
+	static Vector2 getCoordinatesInsideRectangle(Rectangle rectangle)
+	{
+		Random rand = new Random();
+		Vector2 retValue = new Vector2();
+		retValue.x = rectangle.x + rand.nextInt((int)rectangle.width);
+		retValue.y = rectangle.y + rand.nextInt((int)rectangle.height);
+		return retValue;
+	}
+	
+	public void onAppleSpawn(Apple apple)
+	{
+		
 	}
 }

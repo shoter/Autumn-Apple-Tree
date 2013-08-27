@@ -1,18 +1,26 @@
 package com.shoter.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.aat.WindowManager;
 import com.shoter.gfx.TextureAtlas;
 
 public class GameObject
 {
+	static boolean debug_draw = true;
+	
 	Sprite sprite;
 	Vector2 position = new Vector2(0f,0f);
 	float rotation;
-	Rectangle rectangle = new Rectangle();
+	Rectangle rectangle = new Rectangle(0,0,0,0);
 	float size;
+	
+	
 	
 	String texture; //for copying.
 	
@@ -31,10 +39,14 @@ public class GameObject
 		sprite = new Sprite(TextureAtlas.getTexture(texture));
 		
 		this.texture = texture;
-		this.rectangle.set(rectangle);
+		
+		setRectangle(rectangle);
 		setPosition(position);
 		setRotation(rotation);
 		setSize(size);
+		
+		if(rectangle.x == 0 && rectangle.y == 0 && rectangle.width == 0 && rectangle.height == 0)
+			setRectangleFromSPrite();
 		
 		onCreate();
 	}
@@ -45,6 +57,14 @@ public class GameObject
 		
 	}
 	
+	public void setPosition(Vector2 position, boolean center)
+	{
+		if(center)
+			setPosition(position.x - sprite.getWidth() / 2, position.y - sprite.getHeight() / 2);
+		else
+			setPosition(position.x, position.y);
+	}
+	
 	public void setPosition(float x, float y)
 	{
 		position.x = x;
@@ -52,6 +72,14 @@ public class GameObject
 		this.rectangle.x = position.x;
 		this.rectangle.y = position.y;
 		sprite.setPosition(position.x, position.y);
+	}
+	
+	public void setRectangle(Rectangle other)
+	{
+		rectangle.x = other.x;
+		rectangle.y = other.y;
+		rectangle.width = other.width;
+		rectangle.height = other.height;
 	}
 	
 	public void setRotation(float rotation)
@@ -70,10 +98,14 @@ public class GameObject
 	{
 		return rectangle.overlaps(other.rectangle);
 	}
-	
+	static ShapeRenderer SR = null;
 	public void Draw(SpriteBatch spriteBatch)
 	{
 		sprite.draw(spriteBatch);
+		if(SR == null)
+		{
+			SR = new ShapeRenderer();
+		}
 	}
 	
 	void onCreate()
@@ -84,6 +116,7 @@ public class GameObject
 	public void destroy()
 	{
 		onDestroy();
+		WindowManager.currentWindow.removeObjectFromQueue(this);
 	}
 	
 	void onDestroy()
@@ -98,5 +131,20 @@ public class GameObject
 	public GameObject copy()
 	{
 		return new GameObject(texture, position, rotation, size, rectangle);
+	}
+	
+	public Sprite getSprite()
+	{
+		return sprite;
+	}
+	
+	void setRectangleFromSPrite()
+	{
+		setRectangle(sprite.getBoundingRectangle());
+	}
+	
+	public boolean isOutOfScreen()
+	{
+		return (position.x < -100f || position.x > 640f) && (position.y > 1000f || position.y < -100f);
 	}
 }

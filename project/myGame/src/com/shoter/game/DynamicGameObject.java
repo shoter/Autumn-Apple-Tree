@@ -2,6 +2,7 @@ package com.shoter.game;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.wind.Wind;
 
 public class DynamicGameObject extends GameObject
 {
@@ -28,8 +29,7 @@ public class DynamicGameObject extends GameObject
 			float size, Rectangle rectangle) {
 		super(texture, position, rotation, size, rectangle);
 		
-		if(rectangle.x == 0 && rectangle.y == 0 && rectangle.width == 0 && rectangle.height == 0)
-			setRectangleFromSPrite();
+		
 	}
 	
 	public DynamicGameObject(String texture, Vector2 position, float rotation, float rotation_change, float size, Vector2 speed, Vector2 acceleration)
@@ -52,14 +52,13 @@ public class DynamicGameObject extends GameObject
 		this.mass = mass;
 	}
 	
-	void setRectangleFromSPrite()
-	{
-		rectangle = sprite.getBoundingRectangle();
-	}
 	
-	void ApplyWind( Vector2 wind )
+	
+	void ApplyWind( Wind wind )
 	{
-		speed.add( wind.div(mass) );
+		speed.add( wind.direction.cpy().div(mass) );
+		rotation_change += (wind.direction.x * 10f) / mass;
+		rotation_change -= rotation_change / 10f;
 	}
 	
 	public void setMass(float mass)
@@ -79,22 +78,25 @@ public class DynamicGameObject extends GameObject
 		this.acceleration.y = acceleration.y;
 	}
 	
-	@Override
-	public void Tick()
+	public void Tick(Wind wind)
 	{
 		position.add(speed);
+		updatePosition();
 		speed.add(acceleration);
-		sprite.setPosition(position.x, position.y);
-		//ApplyWind(wind);
+		ApplyWind(wind);
+		setRotation(rotation + rotation_change);
 	}
 	
+	void updatePosition()
+	{
+		rectangle.x = position.x;
+		rectangle.y = position.y;
+		sprite.setPosition(position.x, position.y);
+	}
 	public DynamicGameObject Clone()
 	{
 		DynamicGameObject DGO = new DynamicGameObject(texture, position, rotation, rotation_change, size, mass, speed, acceleration, rectangle);
-		DGO.mass = this.mass;
-		DGO.rotation_change = this.rotation_change;
-		DGO.speed = this.speed;
-		return null;
+		return DGO;
 	}
 
 }
