@@ -11,14 +11,9 @@ import com.shoter.logger.Logger;
 
 public class TextureAtlas
 {
-	Map<String, Texture> textureMap = new HashMap<String, Texture>();
+	static Map<String, Texture> textureMap = new HashMap<String, Texture>();
 	
-	public TextureAtlas()
-	{
-		initTextures();
-	}
-	
-	void initTextures()
+	public static void init()
 	{
 		Texture.setEnforcePotImages(false);
 		addTexture("ground.png", "ground");
@@ -30,7 +25,7 @@ public class TextureAtlas
 	}
 	
 	
-	public void addTexture(String path, String name)
+	public static void addTexture(String path, String name)
 	{
 		name = name.toLowerCase();
 		path = "res\\gfx\\" + path;
@@ -48,7 +43,7 @@ public class TextureAtlas
 			Logger.e("TextureAtlass", "File : "  + file.getPath() + " was not found");
 	}
 	
-	public Texture getTexture(String name)
+	public static Texture getTexture(String name)
 	{
 		name = name.toLowerCase();
 		Texture texture =  textureMap.get(name);
@@ -57,7 +52,7 @@ public class TextureAtlas
 		return texture;
 	}
 	
-	void destroy()
+	public static void destroy()
 	{
 		for(Texture texture : textureMap.values())
 		{
