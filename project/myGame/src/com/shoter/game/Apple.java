@@ -1,6 +1,5 @@
 package com.shoter.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -9,20 +8,25 @@ public class Apple extends DynamicGameObject
 	
 	public int score;
 	
-	public Apple(Sprite sprite, Vector2 position)
+	public Apple(String texture, Vector2 position)
 	{
-		this(sprite,position, 0f, 1f, new Rectangle(sprite.getBoundingRectangle()));
+		this(texture, position, 0f, 1f, new Rectangle(0,0,0,0));
 	}
 	
-	public Apple(Sprite sprite, Vector2 position, float rotation, float size)
+	public Apple(String texture, Vector2 position, float rotation, float size)
 	{
-		this(sprite, position, rotation, size,  sprite.getBoundingRectangle());
+		this(texture, position, rotation, size,  new Rectangle(0,0,0,0));
 	}
 
-	public Apple(Sprite sprite, Vector2 position, float rotation, float size,
+	public Apple(String texture, Vector2 position, float rotation, float size,
 			Rectangle rectangle) {
-		super(sprite, position, rotation, size, rectangle);
+		super(texture, position, rotation, size, rectangle);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Apple(String texture, Vector2 position, float rotation, float rotation_change, float size, float mass, Vector2 speed, Vector2 acceleration, Rectangle rectangle)
+	{
+		super(texture, position, rotation, rotation_change, size, mass, speed, acceleration, rectangle);
 	}
 	
 	@Override
@@ -32,13 +36,7 @@ public class Apple extends DynamicGameObject
 	
 	public Apple clone()
 	{
-		Apple retApple = new Apple(new Sprite(sprite), acceleration, rotation_change, mass, rectangle);
-		retApple.setSpeed(speed);
-		retApple.setAcceleration(acceleration);
-		retApple.mass = this.mass;
-		retApple.rotation_change = this.rotation_change;
-		retApple.score = this.score;
-		
+		Apple retApple = new Apple(texture, position, rotation, rotation_change, size, mass, speed, acceleration, rectangle);
 		return retApple;
 	}
 

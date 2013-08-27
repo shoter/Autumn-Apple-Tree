@@ -3,8 +3,6 @@ package com.shoter.aat;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.shoter.game.Logic;
-import com.shoter.gfx.Graphic;
 
 public class MyGame implements ApplicationListener {
 	
@@ -26,7 +24,6 @@ public class MyGame implements ApplicationListener {
 
 	@Override
 	public void render() {	
-		Graphic.get().draw();
 	}
 	
 	
@@ -45,8 +42,6 @@ public class MyGame implements ApplicationListener {
 	
 	void initSingletons()
 	{
-		Graphic.create(batch);
-		Logic.create();
-		Game.create();
+
 	}
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.gfx.Graphic;
 
 public class GameObject
 {
@@ -14,27 +13,25 @@ public class GameObject
 	Rectangle rectangle;
 	float size;
 	
-	public GameObject(Sprite sprite, Vector2 position)
+	String texture; //for copying.
+	
+	public GameObject(String texture, Vector2 position)
 	{
-		this(sprite,position, 0f, 1f, new Rectangle(sprite.getBoundingRectangle()));
+		this(texture,position, 0f, 1f, new Rectangle(0,0,0,0));
 	}
 	
-	public GameObject(Sprite sprite, Vector2 position, float rotation, float size)
+	public GameObject(String texture, Vector2 position, float rotation, float size)
 	{
-		this(sprite, position, rotation, size,  sprite.getBoundingRectangle());
+		this(texture, position, rotation, size,  new Rectangle(0,0,0,0));
 	}
 	
-	public GameObject(Sprite sprite, Vector2 position, float rotation, float size,  Rectangle rectangle)
+	public GameObject(String texture, Vector2 position, float rotation, float size,  Rectangle rectangle)
 	{
-		this.sprite = sprite;
-		this.rectangle = rectangle;
-		
-		
+		this.texture = texture;
+		this.rectangle.set(rectangle);
 		setPosition(position);
 		setRotation(rotation);
 		setSize(size);
-		
-		
 		
 		onCreate();
 	}
@@ -89,8 +86,6 @@ public class GameObject
 	
 	void onDestroy()
 	{
-		Graphic.get().remove(sprite);
-		Logic.get().removeFromQueue(this);
 	}
 	
 	public void Tick()
@@ -100,6 +95,6 @@ public class GameObject
 	
 	public GameObject copy()
 	{
-		return new GameObject(sprite, position, rotation, size, rectangle);
+		return new GameObject(texture, position, rotation, size, rectangle);
 	}
 }

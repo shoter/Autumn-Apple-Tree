@@ -3,12 +3,10 @@ package com.shoter.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.aat.Game;
-import com.shoter.gfx.Graphic;
 import com.shoter.logger.Logger;
 
 public class Bowl extends GameObject
@@ -19,19 +17,16 @@ public class Bowl extends GameObject
 	
 	public Bowl(Player player)
 	{
-		super(new Sprite(Graphic.get().textureAtlas.getTexture("bowl")), new Vector2(0,80));
+		super("bowl", Vector2.Zero);
 		this.player = player;
-		
-		Graphic.get().addToQueue(sprite, 4);
-		Logic.get().tickQueue.add(this);
 		
 	}
 	
-	public void Tick()
+	public void Tick(List<Apple> appleList)
 	{
 		if(isBowlFull())
 			onBowlFull();
-		for( Apple apple : Game.get().appleList)
+		for( Apple apple : appleList)
 		{
 			tryToCatch(apple);
 		}
