@@ -154,4 +154,9 @@ public class GameObject
 	{
 		return (position.x < -100f || position.x > 640f) && (position.y > 1000f || position.y < -100f);
 	}
+	
+	public float getHeight()
+	{
+		return rectangle.height;
+	}
 }

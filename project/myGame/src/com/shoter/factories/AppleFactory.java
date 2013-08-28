@@ -28,6 +28,10 @@ public class AppleFactory
 		goodApple = new Apple("good_apple", new Vector2(0f,0f));
 		normalApple = new Apple("normal_apple", new Vector2(0f,0f));
 		
+		badApple.score = 1;
+		normalApple.score = 4;
+		goodApple.score = 9;
+		
 		badApple.setMass(3.8f);
 		goodApple.setMass(3.5f);
 		normalApple.setMass(4.4f);

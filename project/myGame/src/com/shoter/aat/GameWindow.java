@@ -136,6 +136,12 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		super.draw(spriteBatch);
+		spriteBatch.begin();
+		Game.gameFont.setColor(Color.GREEN);
+		Game.gameFont.draw(spriteBatch, "Player 1 : "  + String.format("%05d  (X%d)",player.score, player.bowl.getAppleCount()), 10, 20);
+		Game.gameFont.setColor(Color.BLUE);
+		Game.gameFont.draw(spriteBatch, "Player 2 : "  + String.format("%05d  (X%d)",player2.score, player2.bowl.getAppleCount()), 330, 20);
+		spriteBatch.end();
 		//draw_debug();
 		//Game.wind.debug_draw();
 	}
@@ -199,32 +205,47 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	
 	public int enviFrontCount = 3;
 	public int enviBackCount = 2;
-	public int envi_count = 20;
+	public int enviDownCount = 1;
+	public int envi_count = 25;
 	public void createEnviroment()
 	{
 		GameObject[] enviFront = new GameObject[enviFrontCount];
 		GameObject[] enviBack = new GameObject[enviBackCount];
+		GameObject[] enviDown = new GameObject[enviDownCount];
 		for(int i = 0; i < enviFrontCount; i++)
 			enviFront[i] = new GameObject("envi_f" + String.valueOf(i+1), Vector2.Zero.cpy());
 		
 		for(int i = 0; i < enviBackCount; i++)
 			enviBack[i] = new GameObject("envi_b" + String.valueOf(i+1), Vector2.Zero.cpy());
 		
+		for(int i = 0; i < enviDownCount; i++)
+			enviDown[i] = new GameObject("envi_d" + String.valueOf(i+1), Vector2.Zero.cpy());
+		
 		for(int i = 0;i < envi_count; i++)
 		{
-			boolean inFront = Game.rand.nextBoolean();
+			int position = Game.rand.nextInt(3);
 			GameObject toCopy = null;
 			int drawOrder = 9;
-			if(inFront)
-				toCopy = enviFront[Game.rand.nextInt(enviFrontCount)];
-			else
+			int y = 80;
+			switch(position)
 			{
-				toCopy = enviBack[Game.rand.nextInt(enviBackCount)];
-				drawOrder = 7;
+			case 0 :
+				toCopy = enviFront[Game.rand.nextInt(enviFrontCount)];
+				break;
+			case 1 :
+				{
+					toCopy = enviBack[Game.rand.nextInt(enviBackCount)];
+					drawOrder = 7;
+					break;
+				}
+			case 2:
+				toCopy = enviDown[Game.rand.nextInt(enviDownCount)];
+				y = (int)(80 - toCopy.getHeight());
+				break;
 			}
 			
 			GameObject copied = toCopy.copy();
-			copied.setPosition(Game.rand.nextInt(640),  80);
+			copied.setPosition(Game.rand.nextInt(640),  y);
 			addToQueue(copied, drawOrder);
 		}
 	}

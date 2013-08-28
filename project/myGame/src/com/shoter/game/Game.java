@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.shoter.wind.Wind;
 
 public class Game
@@ -18,12 +19,12 @@ public class Game
 	
 	public static void tick()
 	{
-	//	gameFont = new BitmapFont(Gdx.files.internal("gfx/lgsb.ttf"),Gdx.files.internal("gfx/lgsb.png"),false);
 		wind.tick();
 	}
 	
 	public static void init()
 	{
-		
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("gfx/lgsb.ttf"));
+		gameFont = generator.generateFont(40);
 	}
 }

@@ -37,6 +37,7 @@ public class Apple extends DynamicGameObject
 	public Apple clone()
 	{
 		Apple retApple = new Apple(texture, position, rotation, rotation_change, size, mass, speed, acceleration, rectangle);
+		retApple.score = this.score;
 		return retApple;
 	}
 

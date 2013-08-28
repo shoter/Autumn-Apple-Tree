@@ -43,6 +43,8 @@ public class TextureAtlas
 		addTexture("envi_b1.png", "envi_b1");
 		addTexture("envi_b2.png", "envi_b2");
 		addTexture("envi_b3.png", "envi_b3");
+		
+		addTexture("envi_d1.png", "envi_d1");
 
 	}
 	

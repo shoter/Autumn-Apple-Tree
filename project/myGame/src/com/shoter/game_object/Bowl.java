@@ -64,7 +64,7 @@ public class Bowl extends GameObject
 	public void clearApples()
 	{
 		int bowlScore = bowlScore();
-		player.score += bowlScore;
+		player.score += bowlScore * getAppleCount();
 		createAppleParticles();
 		apples.clear();
 	}
@@ -91,6 +91,11 @@ public class Bowl extends GameObject
 			apple.draw(spriteBatch);
 		
 		super.Draw(spriteBatch);
+	}
+	
+	public int getAppleCount()
+	{
+		return apples.size();
 	}
 	
 	
