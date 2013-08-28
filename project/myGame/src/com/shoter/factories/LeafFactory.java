@@ -7,7 +7,7 @@ import com.shoter.game_object.Leaf;
 
 public class LeafFactory
 {
-	static int LEAFS_COUNT = 2;
+	static int LEAFS_COUNT = 3;
 	static Leaf[] leafs = new Leaf[LEAFS_COUNT];
 	static float[] weight = new float[LEAFS_COUNT];
 	static Random rand = new Random();
@@ -21,8 +21,10 @@ public class LeafFactory
 		
 		leafs[0] = new Leaf("leaf", Vector2.Zero, 0.5f+(rand.nextInt(30))/100f, new Vector2(0f, -0.008f));
 		leafs[1] = new Leaf("leaf2", Vector2.Zero, 0.6f+(rand.nextInt(30))/100f, new Vector2(0f, -0.007f));
-		weight[0] = 0.7f;
-		weight[1] = 0.6f;
+		leafs[2] = new Leaf("leaf3", Vector2.Zero, 0.6f+(rand.nextInt(30))/100f, new Vector2(0f, -0.007f));
+		weight[0] = 1.7f;
+		weight[1] = 1.6f;
+		weight[2] = 1.5f;
 	
 	}
 	

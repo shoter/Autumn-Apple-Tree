@@ -143,7 +143,7 @@ public class Wind
 	public WindBlow generateHeavyBlow()
 	{
 		boolean isMinus = rand.nextBoolean();
-		return new WindBlow(180, isMinus?0.02f:-0.02f);
+		return new WindBlow(180, isMinus?0.015f:-0.015f);
 	}
 	
 	public void onHeavyWindBlow(boolean isGoingLeft, WindBlow windBlow)

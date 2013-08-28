@@ -1,6 +1,7 @@
 package com.shoter.game_object;
 
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.game.Game;
 import com.shoter.wind.Wind;
 
 public class Leaf extends DynamicGameObject
@@ -17,6 +18,13 @@ public class Leaf extends DynamicGameObject
 		
 		super.Tick();
 		
+	}
+	
+	@Override
+	void ApplyWind() {
+		speed.add( Game.wind.direction.cpy().div(mass) );
+		rotation_change += (Game.wind.direction.x * 30f) / mass;
+		rotation_change -= rotation_change / 10f;
 	}
 	
 	//@Override

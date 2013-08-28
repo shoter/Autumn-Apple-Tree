@@ -139,14 +139,14 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		Rectangle spawnRectangle = new Rectangle();
 		if(isGoingLeft)
 		{
-			spawnRectangle = new Rectangle(640,0,5000,1000);
+			spawnRectangle = new Rectangle(640,0,3000,1000);
 		}
 		else
 		{
-			spawnRectangle = new Rectangle(-5000,0,5000,1000);
+			spawnRectangle = new Rectangle(-3000,0,3000,1000);
 		}
 		
-		for(int i = 0;i < 500;i ++)
+		for(int i = 0;i < 100;i ++)
 		{
 			Leaf test = LeafFactory.createLeaf();
 			test.setPosition(MyGame.getCoordinatesInsideRectangle(spawnRectangle));

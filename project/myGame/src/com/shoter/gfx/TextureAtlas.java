@@ -25,6 +25,7 @@ public class TextureAtlas
 		addTexture("bowl.png", "bowl");
 		addTexture("leaf.png", "leaf");
 		addTexture("leaf2.png", "leaf2");
+		addTexture("leaf3.png", "leaf3");
 		addTexture("cloud1.png", "cloud1");
 		addTexture("cloud2.png", "cloud2");
 		addTexture("cloud3.png", "cloud3");
