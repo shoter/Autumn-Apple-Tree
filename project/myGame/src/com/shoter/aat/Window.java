@@ -1,17 +1,21 @@
 package com.shoter.aat;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.shoter.game_object.CollisionObject;
 import com.shoter.game_object.GameObject;
 
 public class Window
 {
 	Queue<GameObject>[] drawQueue = new Queue[10];
+	List<CollisionObject> collisionList = new ArrayList<CollisionObject>();
 	Color backgroundColor;
 	
 	
@@ -52,6 +56,16 @@ public class Window
 	public void addToQueue(GameObject object, int order)
 	{
 		drawQueue[order].add(object);
+	}
+	
+	public void addColision(CollisionObject object)
+	{
+		collisionList.add(object);
+	}
+	
+	public void removeCollisioN(CollisionObject object)
+	{
+		collisionList.remove(object);
 	}
 	
 	public void removeObjectFromQueue(GameObject object)

@@ -18,13 +18,15 @@ import com.shoter.game.HeavyWindBlowListener;
 import com.shoter.game.Player;
 import com.shoter.game_object.Apple;
 import com.shoter.game_object.Cloud;
+import com.shoter.game_object.CollisionObject;
+import com.shoter.game_object.CollisionType;
 import com.shoter.game_object.GameObject;
 import com.shoter.game_object.Leaf;
 import com.shoter.game_object.Tree;
 
 public class GameWindow extends Window implements HeavyWindBlowListener
 {
-	GameObject ground;
+	CollisionObject ground;
 	Tree tree;
 	Player player;
 	List<Apple> appleList = new ArrayList<Apple>();
@@ -40,7 +42,7 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		createAppleFactory();
 		
 		backgroundColor = new Color(0.5f, 0.7f, 1f, 1f);
-		ground = new GameObject("ground", new Vector2(320,40));
+		ground = new CollisionObject("ground", new Vector2(320,40), CollisionType.STATIC);
 		tree = new Tree(new Rectangle(0,400 - 142,400,143), this);
 		
 		player = new Player();
