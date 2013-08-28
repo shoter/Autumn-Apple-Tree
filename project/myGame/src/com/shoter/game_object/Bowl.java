@@ -58,6 +58,11 @@ public class Bowl extends GameObject
 	
 	void onBowlFull()
 	{
+		clearApples();
+	}
+	
+	public void clearApples()
+	{
 		int bowlScore = bowlScore();
 		player.score += bowlScore;
 		createAppleParticles();

@@ -150,23 +150,45 @@ public class CollisionObject extends DynamicGameObject
 	{
 			attached = true;
 			attachedObject = other;
+			onBottomCollided(other);
+			
 	}
 	
 	void onBottomCollision(CollisionObject other)
 	{
-		
+		onTopCollided(other);
 	}
 	
 	void onLeftCollision(CollisionObject other)
 	{
-		
+		onRightCollided(other);
 	}
 	
 	void onRightCollision(CollisionObject other)
 	{
 		
+		onLeftCollided(other);
 	}
 	
+	void onTopCollided(CollisionObject fromWho)
+	{
+		
+	}
+	
+	void onBottomCollided(CollisionObject fromWho)
+	{
+		
+	}
+	
+	void onLeftCollided(CollisionObject fromWho)
+	{
+		
+	}
+	
+	void onRightCollided(CollisionObject fromWho)
+	{
+		
+	}
 	public void checkAttached()
 	{
 		if(attached == false)

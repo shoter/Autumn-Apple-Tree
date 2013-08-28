@@ -39,7 +39,6 @@ public class Player extends CollisionObject
 		setAcceleration(new Vector2(0f, -0.2f));
 		bowl = new Bowl(this);
 		this.mass = 1000f;
-		//this.collisionSides = EnumSet.of( CollisionSides.TOP);
 	}
 	
 	public void setKeys(int button_left, int button_right, int button_up)
@@ -77,7 +76,12 @@ public class Player extends CollisionObject
 		flipped = !turnedRight;
 		super.Tick(collisionList);
 			bowl.setPosition(position.x + rectangle.width / 2 - bowl.rectangle.width / 2, position.y + rectangle.height - 1);
-
+	}
+	
+	@Override
+	void onTopCollided(CollisionObject fromWho) {
+		super.onTopCollided(fromWho);
+		bowl.clearApples();
 	}
 	
 	void texture_tick()
