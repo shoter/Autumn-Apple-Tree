@@ -10,6 +10,7 @@ public class DynamicGameObject extends GameObject
 	float mass = 1f;
 	float rotation_change = 0f;
 	protected Vector2 acceleration = new Vector2(0f, 0f);
+	protected Vector2 previousPosition = new Vector2(0f,0f);
 	
 	public DynamicGameObject(String texture, Vector2 position)
 	{
@@ -80,11 +81,13 @@ public class DynamicGameObject extends GameObject
 	
 	public void Tick()
 	{
+		updatePreviousPosition();
 		position.add(speed);
 		updatePosition();
 		speed.add(acceleration);
 		ApplyWind();
 		setRotation(rotation + rotation_change);
+		
 	}
 	
 	void updatePosition()
@@ -97,6 +100,42 @@ public class DynamicGameObject extends GameObject
 	{
 		DynamicGameObject DGO = new DynamicGameObject(texture, position, rotation, rotation_change, size, mass, speed, acceleration, rectangle);
 		return DGO;
+	}
+	
+	public boolean isGoingTop()
+	{
+		return position.y >= previousPosition.y;
+	}
+	
+	public boolean isGoingDown()
+	{
+		return position.y < previousPosition.y;
+	}
+
+	public boolean isGoingLeft()
+	{
+		return position.x < previousPosition.x;
+	}
+	
+	public boolean isGoingRight()
+	{
+		return position.x > previousPosition.x;
+	}
+	
+	protected void updatePreviousPosition()
+	{
+		previousPosition.x = position.x;
+		previousPosition.y = position.y;
+	}
+	
+	public boolean collide_previous_frame(DynamicGameObject other)
+	{
+		return getPreviousRectangle().overlaps(other.getPreviousRectangle());
+	}
+	
+	public Rectangle getPreviousRectangle()
+	{
+		return new Rectangle(previousPosition.x, previousPosition.y , rectangle.width, rectangle.height);
 	}
 
 }

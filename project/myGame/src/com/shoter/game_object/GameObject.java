@@ -98,6 +98,8 @@ public class GameObject
 	{
 		return rectangle.overlaps(other.rectangle);
 	}
+	
+	
 	static ShapeRenderer SR = null;
 	public void Draw(SpriteBatch spriteBatch)
 	{

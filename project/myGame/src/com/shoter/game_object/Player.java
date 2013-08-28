@@ -1,6 +1,7 @@
 package com.shoter.game_object;
 
 import java.awt.geom.Point2D;
+import java.util.EnumSet;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -21,12 +22,16 @@ public class Player extends CollisionObject
 		this.score = 0;
 		setAcceleration(new Vector2(0f, -0.2f));
 		bowl = new Bowl(this);
+		this.mass = 1000f;
+		//this.collisionSides = EnumSet.of( CollisionSides.TOP);
 	}
 	
 	public void tick(List<Apple> appleList, boolean move)
 	{
+		speed.x = 0f;
 		if(move)
 		{
+			debugg = true;
 		if(Gdx.input.isKeyPressed(Keys.LEFT))
 		{
 			speed.x = -2f;
@@ -38,9 +43,9 @@ public class Player extends CollisionObject
 		
 		if(Gdx.input.isButtonPressed(Keys.UP) && jumped == false)
 		{
-			speed.y = 6f;
+			speed.y += 5.5f;
 			jumped = true;
-			setPosition(position.x, position.y + 1);
+			//setPosition(position.x, position.y);
 		}
 		bowl.Tick(appleList);
 		}
@@ -48,6 +53,13 @@ public class Player extends CollisionObject
 		
 		
 		
+	}
+	
+	@Override
+	public void onCollisionTop(CollisionObject other) {
+		// TODO Auto-generated method stub
+		super.onCollisionTop(other);
+		jumped = false;
 	}
 	
 	@Override

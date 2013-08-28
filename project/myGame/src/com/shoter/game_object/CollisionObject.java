@@ -1,13 +1,13 @@
 package com.shoter.game_object;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumSet;
+import java.util.Set;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.shoter.game.Game;
+import com.shoter.logger.Logger;
 
 public class CollisionObject extends DynamicGameObject
 {
@@ -15,12 +15,18 @@ public class CollisionObject extends DynamicGameObject
 	boolean collisionDetected = false;
 	Vector2 afterCollisionPlace;
 	float diagonal;
+	boolean debugg = false;
+	
+	
+	public Set<CollisionSides> collisionSides;
+	
 
 	public CollisionObject(String texture, Vector2 position,
 			CollisionType collisionType) {
 		this(texture, position, 0f, 1f, new Rectangle(0, 0, 0, 0));
 		this.collisionType = collisionType;
 		this.mass = 1f;
+		this.collisionSides = EnumSet.of(CollisionSides.BOTTOM , CollisionSides.TOP , CollisionSides.LEFT , CollisionSides.RIGHT);
 	}
 
 	public CollisionObject(String texture, Vector2 position, float rotation,
@@ -60,89 +66,95 @@ public class CollisionObject extends DynamicGameObject
 		if (collisionType == CollisionType.STATIC) return;
 		if (collide(other))
 		{
-			Line2D movementLine = new Line2D.Float(position.x, position.y,
-					position.x - speed.x, position.y - speed.y);
-			Line2D[] lines = other.getCollisionLines();
-			List<Line2D> linesToCheck = new ArrayList<Line2D>();
-			if (speed.x < 0) linesToCheck.add(lines[1]);
-			else
-				linesToCheck.add(lines[3]);
-			if (speed.y < 0) linesToCheck.add(lines[0]);
-			else
-				linesToCheck.add(lines[2]);
+			if(isOnLeft(other) )
+			{
+				if(other.collisionSides.contains(CollisionSides.LEFT))
+				onCollisionLeft(other);
+				if(debugg)
+				Logger.i("Collision", "Left");
+			}
+			else if(isOnRight(other))
+			{
+				if(other.collisionSides.contains(CollisionSides.RIGHT))
+				onCollisionRight(other);
+				if(debugg)
+				Logger.i("Collision", "RIGHT");
+			}
+			else if(isOnTop(other))
+			{
+				if(other.collisionSides.contains(CollisionSides.TOP))
+				onCollisionTop(other);
+				if(debugg)
+				Logger.i("Collision", "TOP");
+			}
+			else if(isOnBottom(other))
+			{
+				if(other.collisionSides.contains(CollisionSides.BOTTOM))
+				onCollisionBottom(other);
+				if(debugg)
+				Logger.i("Collision", "BOTTOM");
+			}
 			
-			Line2D[] myLines = getCollisionLines();
-			List<Point2D> intersectionPoints = new ArrayList<Point2D>();
-			Point2D min = null;
-			Point2D myPosition = new Point2D.Float(position.x
-					+ sprite.getWidth() / 2, position.y + sprite.getHeight()
-					/ 2);
-			for(Line2D myLine : myLines)
-			for (Line2D line : lines)
-			{
-				Point2D interPoint = intersectionPoint(myLine, line);
-				if (interPoint != null)
-				{
-					intersectionPoints.add(interPoint);
-					if (min == null) min = intersectionPoints.get(0);
-					else
-					{
-						float minLength = (float) min.distance(myPosition);
-						float myLength = (float) interPoint
-								.distance(myPosition);
-						if (myLength < minLength) min = interPoint;
-					}
-				}
-				/*
-				 * if(intersection != null) {
-				 * 
-				 * }
-				 */
-			}
-
-			if (min != null)
-			{
-				/*
-				Vector2 diff = new Vector2((float) min.getX()
-						- position.x, (float) min.getY() - position.y);
-				float len = diff.len() + diagonal;
-				diff.nor();
-
-				diff.x *= len;
-				diff.y *= len;
-				setPosition(position.add(diff));*/
-				afterCollisionPlace = new Vector2((float)min.getX(), (float)min.getY());
-				collisionDetected = true;
-				setSpeed(Vector2.Zero);
-				onCollision(min, other);
-				Game.debugPoints.add(min);
-			}
-
+			
+				
 		}
 	}
+	
+	public void onCollisionLeft(CollisionObject other)
+	{
+		speed.x = 0f;
+		position.x = other.position.x - sprite.getWidth();
+	}
+	
+	public void onCollisionRight(CollisionObject other)
+	{
+		speed.x = 0f;
+		position.x = other.position.x + other.sprite.getWidth();
+	}
+	
+	public void onCollisionTop(CollisionObject other)
+	{
+		speed.y = 0f;
+		position.y = other.position.y + other.sprite.getHeight();
+	}
+	
+	public void onCollisionBottom(CollisionObject other)
+	{
+		speed.y = 0f;
+		position.y = other.position.y - sprite.getHeight();
+	}
+	
+	public boolean isOnTop(CollisionObject other)
+	{
+		return (position.y < other.position.y + other.sprite.getHeight() &&
+				position.y + sprite.getHeight() > other.position.y
+				&& isGoingDown()
+				);
+	}
+	
+	public boolean isOnBottom(CollisionObject other)
+	{
+		return (position.x + sprite.getWidth() >= other.position.x && position.x + sprite.getWidth() <= other.position.x + other.sprite.getWidth()
+				&&
+				position.y +  sprite.getHeight() <= other.position.y + other.sprite.getHeight() / 2 
+						&& isGoingTop()
+				);
+	}
+	
+	public boolean isOnLeft(CollisionObject other)
+	{
+		return (position.x  <= other.position.x && isGoingRight());
+	}
+	
+	public boolean isOnRight(CollisionObject other)
+	{
+		return (position.x + sprite.getWidth() > other.position.x + other.sprite.getWidth()  && isGoingLeft());
+	}
+	
 	
 	protected void onCollision(Point2D collisionPlace, CollisionObject other)
 	{
 		
-	}
-
-	public Line2D[] getCollisionLines() {
-		Line2D[] collisionLines = new Line2D[4];
-		collisionLines[0] = new Line2D.Float(position.x, position.y, position.x
-				+ rectangle.width, position.y);
-
-		collisionLines[1] = new Line2D.Float(position.x, position.y,
-				position.x, position.y + rectangle.height);
-
-		collisionLines[2] = new Line2D.Float(position.x, position.y
-				+ rectangle.height, position.x + rectangle.width, position.y
-				+ rectangle.height);
-
-		collisionLines[3] = new Line2D.Float(position.x + rectangle.width,
-				position.y, position.x + rectangle.width, position.y
-						+ rectangle.height);
-
-		return collisionLines;
 	}
 	
 	@Override
@@ -154,38 +166,12 @@ public class CollisionObject extends DynamicGameObject
 	@Override
 	public void Tick()
 	{
+		updatePreviousPosition();
 		super.Tick();
 		if(collisionDetected)
 		{
 			setPosition(afterCollisionPlace.x, afterCollisionPlace.y);
 			collisionDetected = false;
 		}
-	}
-
-	/**
-	 * Check if the line intersects with other line
-	 * 
-	 * @param line
-	 * @return point if intersection was found, otherwise null
-	 */
-	Point2D intersectionPoint(Line2D line, Line2D line2) {
-		float A1 = (float) (line.getY2() - line.getY1());
-		float B1 = (float) (line.getX1() - line.getX2());
-		float C1 = (float) (A1 * line.getX1() + B1 * line.getY1());
-
-		float A2 = (float) (line2.getY2() - line2.getY1());
-		float B2 = (float) (line2.getX1() - line2.getX2());
-		float C2 = (float) (A2 * line2.getX1() + B2 * line2.getY1());
-
-		float delta = A1 * B2 - A2 * B1;
-		if (delta == 0) return null;
-
-		float x = (B2 * C1 - B1 * C2) / delta;
-		float y = (A1 * C2 - A2 * C1) / delta;
-		if(x >= line2.getX1() && x <= line2.getX2() && y >= line2.getY1() && y <= line2.getY2()&&
-		   x >= line.getX1() && x <= line.getX2() && y >= line.getY1() && y <= line.getY2()	
-				)
-		return new Point2D.Float(x, y);
-		return null;
 	}
 }

@@ -55,9 +55,9 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		addToQueue(ground, 5);
 		addToQueue(player, 8);
 		addToQueue(player2, 8);
-		addColision(ground);
-		addColision(player);
-		addColision(player2);
+		addColision(ground,4);
+		addColision(player,0);
+		addColision(player2,0);
 		Timer.schedule(new Task() {
 			
 			@Override
