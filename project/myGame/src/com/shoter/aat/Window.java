@@ -35,7 +35,10 @@ public class Window
 	
 	public void tick()
 	{
-		
+		for(CollisionObject object : collisionList)
+			for(CollisionObject otherObject : collisionList)
+				if(object != otherObject)
+					object.checkCollision(otherObject);
 	}
 	
 	public void draw(SpriteBatch spriteBatch)

@@ -1,11 +1,14 @@
 package com.shoter.aat;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
@@ -15,13 +18,12 @@ import com.shoter.factories.CloudFactory;
 import com.shoter.factories.LeafFactory;
 import com.shoter.game.Game;
 import com.shoter.game.HeavyWindBlowListener;
-import com.shoter.game.Player;
 import com.shoter.game_object.Apple;
 import com.shoter.game_object.Cloud;
 import com.shoter.game_object.CollisionObject;
 import com.shoter.game_object.CollisionType;
-import com.shoter.game_object.GameObject;
 import com.shoter.game_object.Leaf;
+import com.shoter.game_object.Player;
 import com.shoter.game_object.Tree;
 
 public class GameWindow extends Window implements HeavyWindBlowListener
@@ -34,6 +36,7 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	List<Cloud> cloudList = new ArrayList<Cloud>();
 	AppleFactory appleFactory;
 	Random rand = new Random();
+	Player player2;
 	
 	static int MAX_CLOUDS = 10;
 	
@@ -45,11 +48,16 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		ground = new CollisionObject("ground", new Vector2(320,40), CollisionType.STATIC);
 		tree = new Tree(new Rectangle(0,400 - 142,400,143), this);
 		
-		player = new Player();
+		player = new Player("hero_red", new Vector2(100, 150));
+		
+		player2 = new Player("hero_red", new Vector2(300, 150));
 		
 		addToQueue(ground, 5);
-		addToQueue(player.bowl, 8);
-		
+		addToQueue(player, 8);
+		addToQueue(player2, 8);
+		addColision(ground);
+		addColision(player);
+		addColision(player2);
 		Timer.schedule(new Task() {
 			
 			@Override
@@ -73,7 +81,8 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void tick() {
 		super.tick();
-		player.tick(appleList);
+		player.tick(appleList, true);
+		player2.tick(appleList, false);
 		appleFactory.tick();
 		
 		for(int i = 0; i < appleList.size(); i++)
@@ -120,7 +129,19 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		super.draw(spriteBatch);
-		Game.wind.debug_draw();
+		draw_debug();
+		//Game.wind.debug_draw();
+	}
+	ShapeRenderer SR = new ShapeRenderer();
+	
+	void draw_debug()
+	{
+		SR.begin(ShapeType.Filled);
+		SR.setColor(Color.RED);
+		for(Point2D debugPoint : Game.debugPoints)
+		SR.rect((float)debugPoint.getX()-2, (float)debugPoint.getY()-2, 4,4);
+		SR.end();
+		
 	}
 	
 	void createAppleFactory()

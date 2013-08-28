@@ -6,10 +6,10 @@ import com.shoter.game.Game;
 
 public class DynamicGameObject extends GameObject
 {
-	Vector2 speed = new Vector2(0f, 0f);
+	protected Vector2 speed = new Vector2(0f, 0f);
 	float mass = 1f;
 	float rotation_change = 0f;
-	Vector2 acceleration = new Vector2(0f, 0f);
+	protected Vector2 acceleration = new Vector2(0f, 0f);
 	
 	public DynamicGameObject(String texture, Vector2 position)
 	{

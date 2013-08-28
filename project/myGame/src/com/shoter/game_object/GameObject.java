@@ -14,10 +14,10 @@ public class GameObject
 {
 	static boolean debug_draw = true;
 	
-	Sprite sprite;
-	Vector2 position = new Vector2(0f,0f);
+	protected Sprite sprite;
+	protected Vector2 position = new Vector2(0f,0f);
 	float rotation;
-	Rectangle rectangle = new Rectangle(0,0,0,0);
+	protected Rectangle rectangle = new Rectangle(0,0,0,0);
 	float size;
 	
 	
