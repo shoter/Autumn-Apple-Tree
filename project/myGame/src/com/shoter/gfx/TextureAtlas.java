@@ -32,10 +32,17 @@ public class TextureAtlas
 		addTexture("hero1_i1.png", "hero1_i1");
 		addTexture("hero1_i2.png", "hero1_i2");
 		addTexture("hero1_j1.png", "hero1_j1");
-		
 		addTexture("hero2_i1.png", "hero2_i1");
 		addTexture("hero2_i2.png", "hero2_i2");
 		addTexture("hero2_j1.png", "hero2_j1");
+		
+		addTexture("envi_f1.png", "envi_f1");
+		addTexture("envi_f2.png", "envi_f2");
+		addTexture("envi_f3.png", "envi_f3");
+		
+		addTexture("envi_b1.png", "envi_b1");
+		addTexture("envi_b2.png", "envi_b2");
+		addTexture("envi_b3.png", "envi_b3");
 
 	}
 	

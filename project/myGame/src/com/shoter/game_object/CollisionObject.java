@@ -138,7 +138,7 @@ public class CollisionObject extends DynamicGameObject
 		{
 			if(overlap_y < 0)
 				onTopCollision(other);
-			else
+			else if(overlap_y > 0)
 				onBottomCollision(other);
 			
 			position.y -= overlap_y;
@@ -150,13 +150,13 @@ public class CollisionObject extends DynamicGameObject
 	{
 			attached = true;
 			attachedObject = other;
-			onBottomCollided(other);
+			other.onTopCollided(this);
 			
 	}
 	
 	void onBottomCollision(CollisionObject other)
 	{
-		onTopCollided(other);
+		other.onBottomCollided(this);
 	}
 	
 	void onLeftCollision(CollisionObject other)

@@ -23,6 +23,7 @@ import com.shoter.game_object.Apple;
 import com.shoter.game_object.Cloud;
 import com.shoter.game_object.CollisionObject;
 import com.shoter.game_object.CollisionType;
+import com.shoter.game_object.GameObject;
 import com.shoter.game_object.Leaf;
 import com.shoter.game_object.Player;
 import com.shoter.game_object.Tree;
@@ -40,6 +41,7 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	Player player2;
 	
 	static int MAX_CLOUDS = 10;
+	public boolean secondPlayer = true;
 	
 	@Override
 	public void onCreate() {
@@ -72,6 +74,8 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 				leafList.add(test);
 			}
 		}, 0f, 0.2f);
+		
+		createEnviroment();
 		
 		for(int i = 0; i < MAX_CLOUDS; i++)
 			generateCloud(new Rectangle(-200,160,1040,330));
@@ -132,7 +136,7 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		super.draw(spriteBatch);
-		draw_debug();
+		//draw_debug();
 		//Game.wind.debug_draw();
 	}
 	ShapeRenderer SR = new ShapeRenderer();
@@ -165,14 +169,14 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		Rectangle spawnRectangle = new Rectangle();
 		if(isGoingLeft)
 		{
-			spawnRectangle = new Rectangle(640,0,3000,1000);
+			spawnRectangle = new Rectangle(640,0,3000,1500);
 		}
 		else
 		{
-			spawnRectangle = new Rectangle(-3000,0,3000,1000);
+			spawnRectangle = new Rectangle(-3000,0,3000,1500);
 		}
 		
-		for(int i = 0;i < 100;i ++)
+		for(int i = 0;i < 200;i ++)
 		{
 			Leaf test = LeafFactory.createLeaf();
 			test.setPosition(MyGame.getCoordinatesInsideRectangle(spawnRectangle));
@@ -193,4 +197,36 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		Game.wind.setListener(null);
 	}
 	
+	public int enviFrontCount = 3;
+	public int enviBackCount = 2;
+	public int envi_count = 20;
+	public void createEnviroment()
+	{
+		GameObject[] enviFront = new GameObject[enviFrontCount];
+		GameObject[] enviBack = new GameObject[enviBackCount];
+		for(int i = 0; i < enviFrontCount; i++)
+			enviFront[i] = new GameObject("envi_f" + String.valueOf(i+1), Vector2.Zero.cpy());
+		
+		for(int i = 0; i < enviBackCount; i++)
+			enviBack[i] = new GameObject("envi_b" + String.valueOf(i+1), Vector2.Zero.cpy());
+		
+		for(int i = 0;i < envi_count; i++)
+		{
+			boolean inFront = Game.rand.nextBoolean();
+			GameObject toCopy = null;
+			int drawOrder = 9;
+			if(inFront)
+				toCopy = enviFront[Game.rand.nextInt(enviFrontCount)];
+			else
+			{
+				toCopy = enviBack[Game.rand.nextInt(enviBackCount)];
+				drawOrder = 7;
+			}
+			
+			GameObject copied = toCopy.copy();
+			copied.setPosition(Game.rand.nextInt(640),  80);
+			addToQueue(copied, drawOrder);
+		}
+	}
+
 }

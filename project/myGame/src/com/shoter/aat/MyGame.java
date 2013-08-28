@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -20,6 +21,7 @@ public class MyGame implements ApplicationListener {
 	private SpriteBatch batch;
 	Timer tickTimer;
 	private static int FRAME_PER_SECOND = 50;
+	
 	
 	@Override
 	public void create() {		
@@ -49,7 +51,6 @@ public class MyGame implements ApplicationListener {
 
 	@Override
 	public void render() {	
-
 		WindowManager.draw(batch);
 	}
 	
