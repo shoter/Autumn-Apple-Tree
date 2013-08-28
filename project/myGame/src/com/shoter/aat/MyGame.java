@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-import com.shoter.game.AppleFactory;
-import com.shoter.game.LeafFactory;
+import com.shoter.factories.AppleFactory;
+import com.shoter.factories.CloudFactory;
+import com.shoter.factories.LeafFactory;
+import com.shoter.game.Game;
 import com.shoter.gfx.TextureAtlas;
 
 public class MyGame implements ApplicationListener {
@@ -59,6 +61,7 @@ public class MyGame implements ApplicationListener {
 	public void tick()
 	{
 		WindowManager.tick();
+		Game.tick();
 		logicDone = true;
 	}
 	
@@ -81,6 +84,8 @@ public class MyGame implements ApplicationListener {
 		SoundAtlas.init();
 		LeafFactory.init();
 		AppleFactory.init();
+		CloudFactory.init();
+		Game.init();
 	}
 	public static Vector2 getCoordinatesInsideRectangle(Rectangle rectangle)
 	{

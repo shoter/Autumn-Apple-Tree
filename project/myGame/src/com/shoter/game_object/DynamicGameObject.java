@@ -1,8 +1,8 @@
-package com.shoter.game;
+package com.shoter.game_object;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.wind.Wind;
+import com.shoter.game.Game;
 
 public class DynamicGameObject extends GameObject
 {
@@ -54,10 +54,10 @@ public class DynamicGameObject extends GameObject
 	
 	
 	
-	void ApplyWind( Wind wind )
+	void ApplyWind()
 	{
-		speed.add( wind.direction.cpy().div(mass) );
-		rotation_change += (wind.direction.x * 10f) / mass;
+		speed.add( Game.wind.direction.cpy().div(mass) );
+		rotation_change += (Game.wind.direction.x * 10f) / mass;
 		rotation_change -= rotation_change / 10f;
 	}
 	
@@ -78,12 +78,12 @@ public class DynamicGameObject extends GameObject
 		this.acceleration.y = acceleration.y;
 	}
 	
-	public void Tick(Wind wind)
+	public void Tick()
 	{
 		position.add(speed);
 		updatePosition();
 		speed.add(acceleration);
-		ApplyWind(wind);
+		ApplyWind();
 		setRotation(rotation + rotation_change);
 	}
 	

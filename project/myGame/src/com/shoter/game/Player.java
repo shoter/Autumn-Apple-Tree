@@ -2,9 +2,12 @@ package com.shoter.game;
 
 import java.util.List;
 
+import com.shoter.game_object.Apple;
+import com.shoter.game_object.Bowl;
+
 public class Player
 {
-	int score;
+	public int score;
 	public Bowl bowl;
 	
 	public Player()

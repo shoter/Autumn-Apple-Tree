@@ -1,4 +1,4 @@
-package com.shoter.game;
+package com.shoter.game_object;
 
 import com.badlogic.gdx.math.Vector2;
 import com.shoter.wind.Wind;
@@ -12,10 +12,10 @@ public class Leaf extends DynamicGameObject
 	}
 	
 	@Override
-	public void Tick(Wind wind) {
+	public void Tick() {
 		// TODO Auto-generated method stub
 		
-		super.Tick(wind);
+		super.Tick();
 		
 	}
 	

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.shoter.aat.SoundAtlas;
+import com.shoter.game.HeavyWindBlowListener;
 import com.shoter.logger.Logger;
 
 public class Wind
@@ -19,6 +20,8 @@ public class Wind
 	List<WindBlow> windBlows = new ArrayList<WindBlow>();
 	ShapeRenderer SR = new ShapeRenderer();
 	public float maxStrength = 0.2f;
+	
+	HeavyWindBlowListener listener = null;
 	
 	int windStrengthDebug[] = new int[640];
 	int windStrengthDebugY[] = new int[640];
@@ -94,6 +97,11 @@ public class Wind
 		timeFromHeavyWindBlow++;
 	}
 	
+	public void setListener(HeavyWindBlowListener heavyWindBlowListener)
+	{
+		this.listener = heavyWindBlowListener;
+	}
+	
 	public void debug_draw()
 	{
 		 SR.begin(ShapeType.Filled );
@@ -135,7 +143,7 @@ public class Wind
 	public WindBlow generateHeavyBlow()
 	{
 		boolean isMinus = rand.nextBoolean();
-		return new WindBlow(180, isMinus?0.05f:-0.05f);
+		return new WindBlow(180, isMinus?0.02f:-0.02f);
 	}
 	
 	public void onHeavyWindBlow(boolean isGoingLeft, WindBlow windBlow)
@@ -143,6 +151,8 @@ public class Wind
 		Sound blowSound = SoundAtlas.getSound("wind1");
 		blowSound.play();
 		Logger.i("WIATR", "Silny wiatr! Lepiej uwa¿aæ :)");
+		if(listener != null)
+			listener.onHeavyBlow(isGoingLeft);
 	}
 	
 	boolean isHeavyBlow()

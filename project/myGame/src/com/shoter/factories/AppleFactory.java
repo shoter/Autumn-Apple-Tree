@@ -1,4 +1,4 @@
-package com.shoter.game;
+package com.shoter.factories;
 
 import java.util.Random;
 
@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.shoter.aat.MyGame;
 import com.shoter.aat.Window;
+import com.shoter.game_object.Apple;
 
 public class AppleFactory
 {

@@ -1,4 +1,4 @@
-package com.shoter.game;
+package com.shoter.game_object;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;

@@ -10,29 +10,30 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
-import com.shoter.game.Apple;
-import com.shoter.game.AppleFactory;
-import com.shoter.game.GameObject;
-import com.shoter.game.Leaf;
-import com.shoter.game.LeafFactory;
+import com.shoter.factories.AppleFactory;
+import com.shoter.factories.CloudFactory;
+import com.shoter.factories.LeafFactory;
+import com.shoter.game.Game;
+import com.shoter.game.HeavyWindBlowListener;
 import com.shoter.game.Player;
-import com.shoter.wind.Wind;
+import com.shoter.game_object.Apple;
+import com.shoter.game_object.Cloud;
+import com.shoter.game_object.GameObject;
+import com.shoter.game_object.Leaf;
+import com.shoter.game_object.Tree;
 
-public class GameWindow extends Window
+public class GameWindow extends Window implements HeavyWindBlowListener
 {
-	GameObject ground, tree;
+	GameObject ground;
+	Tree tree;
 	Player player;
 	List<Apple> appleList = new ArrayList<Apple>();
 	List<Leaf> leafList = new ArrayList<Leaf>();
+	List<Cloud> cloudList = new ArrayList<Cloud>();
 	AppleFactory appleFactory;
 	Random rand = new Random();
-	Wind wind = new Wind()
-	{
-		public void onHeavyWindBlow(boolean isGoingLeft, com.shoter.wind.WindBlow windBlow) {
-			super.onHeavyWindBlow(isGoingLeft, windBlow);
-			generateLeafsOnBlow(isGoingLeft);
-		};
-	};
+	
+	static int MAX_CLOUDS = 10;
 	
 	@Override
 	public void onCreate() {
@@ -40,12 +41,11 @@ public class GameWindow extends Window
 		
 		backgroundColor = new Color(0.5f, 0.7f, 1f, 1f);
 		ground = new GameObject("ground", new Vector2(320,40));
-		tree = new GameObject("tree", new Vector2(320, 280));
+		tree = new Tree(new Rectangle(0,400 - 142,400,143), this);
 		
 		player = new Player();
 		
 		addToQueue(ground, 5);
-		addToQueue(tree, 4);
 		addToQueue(player.bowl, 8);
 		
 		Timer.schedule(new Task() {
@@ -60,6 +60,11 @@ public class GameWindow extends Window
 			}
 		}, 0f, 0.2f);
 		
+		for(int i = 0; i < MAX_CLOUDS; i++)
+			generateCloud(new Rectangle(-200,160,1040,330));
+		
+		Game.wind.setListener(this);
+		
 		super.onCreate();
 	}
 	
@@ -72,7 +77,7 @@ public class GameWindow extends Window
 		for(int i = 0; i < appleList.size(); i++)
 		{
 			Apple apple = appleList.get(i);
-			apple.Tick(wind);
+			apple.Tick();
 			if(apple.isOutOfScreen())
 				appleList.remove(i);
 		}
@@ -80,13 +85,34 @@ public class GameWindow extends Window
 		for(int i = 0; i < leafList.size(); i++)
 		{
 			Leaf leaf = leafList.get(i);
-			leaf.Tick(wind);
+			leaf.Tick();
 			if(leaf.isOutOfScreen())
 				leafList.remove(i);
 		}
-			
 		
-		wind.tick();
+		for(int i = 0; i < cloudList.size(); i++)
+		{
+			Cloud cloud = cloudList.get(i);
+			cloud.Tick();
+			if(cloud.isOutOfScreen())
+				cloudList.remove(i);
+		}
+		while(cloudList.size() < MAX_CLOUDS)
+			generateCloud();
+	}
+	
+	void generateCloud()
+	{
+		Cloud newCloud = CloudFactory.create_cloud();
+		addToQueue(newCloud, 0);
+		cloudList.add(newCloud);
+	}
+	
+	void generateCloud(Rectangle spawnRectangle)
+	{
+		Cloud newCloud = CloudFactory.create_cloud(spawnRectangle);
+		addToQueue(newCloud, 0);
+		cloudList.add(newCloud);
 	}
 	
 	@Override
@@ -124,10 +150,21 @@ public class GameWindow extends Window
 		{
 			Leaf test = LeafFactory.createLeaf();
 			test.setPosition(MyGame.getCoordinatesInsideRectangle(spawnRectangle));
-			addToQueue(test, 6);
+			addToQueue(test, 8);
 			leafList.add(test);
 		}
 		
+	}
+
+	@Override
+	public void onHeavyBlow(boolean isGoingLeft) {
+		generateLeafsOnBlow(isGoingLeft);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Game.wind.setListener(null);
 	}
 	
 }

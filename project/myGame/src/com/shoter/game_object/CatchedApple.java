@@ -1,4 +1,4 @@
-package com.shoter.game;
+package com.shoter.game_object;
 
 import java.util.Random;
 

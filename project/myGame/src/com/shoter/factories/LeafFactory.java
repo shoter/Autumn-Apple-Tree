@@ -1,8 +1,9 @@
-package com.shoter.game;
+package com.shoter.factories;
 
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.game_object.Leaf;
 
 public class LeafFactory
 {
