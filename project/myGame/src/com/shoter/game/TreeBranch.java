@@ -16,7 +16,7 @@ public class TreeBranch extends GameObject
 	
 	@Override
 	public void Draw(SpriteBatch spriteBatch) {
-		setPosition(basePosition.add(new Vector2(Game.wind.direction.x * resilience , Game.wind.direction.y * resilience * 10)));
+		setPosition(basePosition.add(new Vector2(Game.wind.direction.x * resilience , Game.wind.direction.y * resilience)));
 		super.Draw(spriteBatch);
 	}
 }

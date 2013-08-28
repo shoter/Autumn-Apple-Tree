@@ -54,17 +54,17 @@ public class Wind
 			}
 			
 			direction.x += windBlow.getStrength();
-			direction.y += windBlow.getStrength() / 100f;
+			direction.y += windBlow.getStrength() / 15f;
 			
 			if(direction.x > maxStrength)
 				direction.x = maxStrength;
 			else if(direction.x < -maxStrength)
 				direction.x = -maxStrength;
 			
-			if(direction.y > maxStrength/10)
-				direction.y = maxStrength/10;
-			else if(direction.y < -maxStrength/10)
-				direction.y = -maxStrength/10;
+			if(direction.y > maxStrength/3)
+				direction.y = maxStrength/3;
+			else if(direction.y < -maxStrength/3)
+				direction.y = -maxStrength/3;
 			
 			
 			
@@ -87,10 +87,10 @@ public class Wind
 		strength *= 100;
 		
 		windStrengthDebug[currentDebug] = (int) strength;
-		windStrengthDebugY[currentDebug++] = (int) (direction.y / ((float)maxStrength/10f) * 100f);
+		windStrengthDebugY[currentDebug++] = (int) (direction.y / ((float)maxStrength/3f) * 100f);
 		if(rand.nextInt(1000) > 995)
 		{
-			Logger.i("WIATR", "Nowy wiatr");
+			Logger.i("WIATR", "Nowy wiatr " + String.valueOf(windBlows.size()));
 			windBlows.add(new WindBlow(600, (-0.5f + rand.nextFloat()) / 300f));
 		}
 		currentDebug %= 640;

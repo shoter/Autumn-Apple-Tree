@@ -1,11 +1,9 @@
 package com.shoter.gfx;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.shoter.logger.Logger;
@@ -31,6 +29,7 @@ public class TextureAtlas
 		addTexture("cloud3.png", "cloud3");
 		addTexture("cloud4.png", "cloud4");
 		addTexture("branch.png", "branch");
+		addTexture("hero_red.png", "hero_red");
 	}
 	
 	

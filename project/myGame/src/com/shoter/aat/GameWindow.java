@@ -118,7 +118,7 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		super.draw(spriteBatch);
-		//wind.debug_draw();
+		Game.wind.debug_draw();
 	}
 	
 	void createAppleFactory()
