@@ -28,7 +28,7 @@ public class Wind
 	int currentDebug = 0;
 	
 	int timeFromHeavyWindBlow = 0;
-	static int timeBetweenHeavyWindBlow = 300;
+	static int timeBetweenHeavyWindBlow = 150;
 	
 	public Wind()
 	{
@@ -143,7 +143,7 @@ public class Wind
 	public WindBlow generateHeavyBlow()
 	{
 		boolean isMinus = rand.nextBoolean();
-		return new WindBlow(180, isMinus?0.015f:-0.015f);
+		return new WindBlow(180, isMinus?0.019f:-0.019f);
 	}
 	
 	public void onHeavyWindBlow(boolean isGoingLeft, WindBlow windBlow)

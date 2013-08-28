@@ -1,7 +1,7 @@
-package com.shoter.game;
+package com.shoter.game_object;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.game_object.GameObject;
+import com.shoter.game.Game;
 
 public class TreeBranch extends GameObject
 {
@@ -11,12 +11,12 @@ public class TreeBranch extends GameObject
 	{
 		super("branch", position);
 		this.basePosition = new Vector2(position.x, position.y);
-		resilience += (Game.rand.nextFloat() * 1);
+		resilience += (Game.rand.nextFloat() * 200f);
 	}
 	
 	@Override
 	public void Draw(SpriteBatch spriteBatch) {
-		setPosition(basePosition.add(new Vector2(Game.wind.direction.x * resilience , Game.wind.direction.y * resilience)));
+		setPosition(basePosition.cpy().add(new Vector2(Game.wind.direction.x * resilience , Game.wind.direction.y * resilience)));
 		super.Draw(spriteBatch);
 	}
 }

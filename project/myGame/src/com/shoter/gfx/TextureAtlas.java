@@ -29,7 +29,14 @@ public class TextureAtlas
 		addTexture("cloud3.png", "cloud3");
 		addTexture("cloud4.png", "cloud4");
 		addTexture("branch.png", "branch");
-		addTexture("hero_red.png", "hero_red");
+		addTexture("hero1_i1.png", "hero1_i1");
+		addTexture("hero1_i2.png", "hero1_i2");
+		addTexture("hero1_j1.png", "hero1_j1");
+		
+		addTexture("hero2_i1.png", "hero2_i1");
+		addTexture("hero2_i2.png", "hero2_i2");
+		addTexture("hero2_j1.png", "hero2_j1");
+
 	}
 	
 	

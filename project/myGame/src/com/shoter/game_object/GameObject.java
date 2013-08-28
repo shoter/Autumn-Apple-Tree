@@ -20,6 +20,7 @@ public class GameObject
 	protected Rectangle rectangle = new Rectangle(0,0,0,0);
 	float size;
 	
+	boolean flipped = true;
 	
 	
 	String texture; //for copying.
@@ -103,7 +104,11 @@ public class GameObject
 	static ShapeRenderer SR = null;
 	public void Draw(SpriteBatch spriteBatch)
 	{
-		sprite.draw(spriteBatch);
+		if(!flipped)
+			sprite.setScale(1,1);
+		else
+			sprite.setScale(-1,1);
+			sprite.draw(spriteBatch);
 		if(SR == null)
 		{
 			SR = new ShapeRenderer();

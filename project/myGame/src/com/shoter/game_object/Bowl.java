@@ -26,8 +26,7 @@ public class Bowl extends GameObject
 	{
 		if(isBowlFull())
 			onBowlFull();
-		
-		setPosition(Mouse.x, position.y);
+
 		
 		for(CatchedApple apple : apples)
 			apple.tick();

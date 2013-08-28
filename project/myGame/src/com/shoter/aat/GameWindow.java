@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -48,16 +49,18 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		ground = new CollisionObject("ground", new Vector2(320,40), CollisionType.STATIC);
 		tree = new Tree(new Rectangle(0,400 - 142,400,143), this);
 		
-		player = new Player("hero_red", new Vector2(100, 150));
+		player = new Player("hero1_i1", "hero1_i2", "hero1_j1", new Vector2(100, 150));
 		
-		player2 = new Player("hero_red", new Vector2(300, 150));
+		player2 = new Player("hero2_i1", "hero2_i2", "hero2_j1", new Vector2(300, 150));
+		
+		player2.setKeys(Keys.A, Keys.D , Keys.W);
 		
 		addToQueue(ground, 5);
 		addToQueue(player, 8);
 		addToQueue(player2, 8);
-		addColision(ground,4);
-		addColision(player,0);
-		addColision(player2,0);
+		addColision(ground);
+		addColision(player);
+		addColision(player2);
 		Timer.schedule(new Task() {
 			
 			@Override
@@ -81,8 +84,8 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void tick() {
 		super.tick();
-		player.tick(appleList, true);
-		player2.tick(appleList, false);
+		player.tick(appleList, collisionObjects);
+		player2.tick(appleList, collisionObjects);
 		appleFactory.tick();
 		
 		for(int i = 0; i < appleList.size(); i++)
