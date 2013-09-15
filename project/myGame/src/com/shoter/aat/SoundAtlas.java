@@ -18,6 +18,21 @@ public class SoundAtlas
 	public static void init()
 	{
 		addSound("wind.mp3", "wind1");
+		addSound("hero1_good1.mp3", "hero1_good1");
+		addSound("hero1_good2.mp3", "hero1_good2");
+		addSound("hero1_ohno1.mp3", "hero1_ohno1");
+		addSound("hero1_ohno2.mp3", "hero1_ohno2");
+		addSound("hero1_jump1.mp3", "hero1_jump1");
+		addSound("hero1_jump2.mp3", "hero1_jump2");
+		
+		addSound("hero2_good1.mp3", "hero2_good1");
+		addSound("hero2_good2.mp3", "hero2_good2");
+		addSound("hero2_ohno1.mp3", "hero2_ohno1");
+		addSound("hero2_ohno2.mp3", "hero2_ohno2");
+		addSound("hero2_jump1.mp3", "hero2_jump1");
+		addSound("hero2_jump2.mp3", "hero2_jump2");
+		addSound("AAT_music.wav", "music1");
+		
 	}
 	
 	

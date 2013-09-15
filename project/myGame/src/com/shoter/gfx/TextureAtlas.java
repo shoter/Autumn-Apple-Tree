@@ -53,7 +53,7 @@ public class TextureAtlas
 	{
 		name = name.toLowerCase();
 		path = "gfx/" + path;
-
+		Logger.d("GFX", Gdx.files.internal(path).file().getAbsolutePath());
 		Texture texture = new Texture(Gdx.files.internal(path));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		textureMap.put(name, texture);

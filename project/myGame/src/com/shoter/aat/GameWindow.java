@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -39,6 +40,7 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	AppleFactory appleFactory;
 	Random rand = new Random();
 	Player player2;
+	Sound music;
 	
 	static int MAX_CLOUDS = 10;
 	public boolean secondPlayer = true;
@@ -51,9 +53,37 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 		ground = new CollisionObject("ground", new Vector2(320,40), CollisionType.STATIC);
 		tree = new Tree(new Rectangle(0,400 - 142,400,143), this);
 		
-		player = new Player("hero1_i1", "hero1_i2", "hero1_j1", new Vector2(100, 150));
+		Sound[] hero1_good = new Sound[2];
+		hero1_good[0] = SoundAtlas.getSound("hero1_good1");
+		hero1_good[1] = SoundAtlas.getSound("hero1_good2");
 		
-		player2 = new Player("hero2_i1", "hero2_i2", "hero2_j1", new Vector2(300, 150));
+		Sound[] hero1_ohno = new Sound[2];
+		hero1_ohno[0] = SoundAtlas.getSound("hero1_ohno1");
+		hero1_ohno[1] = SoundAtlas.getSound("hero1_ohno2");
+		
+		Sound[] hero1_jump = new Sound[2];
+		hero1_jump[0] = SoundAtlas.getSound("hero1_jump1");
+		hero1_jump[1] = SoundAtlas.getSound("hero1_jump2");
+		
+		Sound[] hero2_good = new Sound[2];
+		hero2_good[0] = SoundAtlas.getSound("hero2_good1");
+		hero2_good[1] = SoundAtlas.getSound("hero2_good2");
+		
+		Sound[] hero2_ohno = new Sound[2];
+		hero2_ohno[0] = SoundAtlas.getSound("hero2_ohno1");
+		hero2_ohno[1] = SoundAtlas.getSound("hero2_ohno2");
+		
+		Sound[] hero2_jump = new Sound[2];
+		hero2_jump[0] = SoundAtlas.getSound("hero2_jump1");
+		hero2_jump[1] = SoundAtlas.getSound("hero2_jump2");
+		
+		music = SoundAtlas.getSound("music1");
+		music.setLooping(1, true);
+		music.play(0.2f);
+		
+		player = new Player("hero1_i1", "hero1_i2", "hero1_j1", hero1_ohno, hero1_good, hero1_jump,  new Vector2(100, 150));
+		
+		player2 = new Player("hero2_i1", "hero2_i2", "hero2_j1", hero2_ohno, hero2_good, hero2_jump, new Vector2(300, 150));
 		
 		player2.setKeys(Keys.A, Keys.D , Keys.W);
 		
@@ -195,6 +225,8 @@ public class GameWindow extends Window implements HeavyWindBlowListener
 	@Override
 	public void onHeavyBlow(boolean isGoingLeft) {
 		generateLeafsOnBlow(isGoingLeft);
+		for(int i = 0; i < 7;i ++)
+			appleFactory.createApple(new Rectangle(120f,480f,400f,300f));
 	}
 	
 	@Override

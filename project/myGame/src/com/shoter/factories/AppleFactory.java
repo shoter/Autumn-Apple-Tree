@@ -10,7 +10,7 @@ import com.shoter.game_object.Apple;
 
 public class AppleFactory
 {
-	static Apple badApple, normalApple, goodApple;
+	public static Apple badApple, normalApple, goodApple;
 	
 	Window window;
 	int delay = 60, current_delay = 0;
@@ -42,29 +42,33 @@ public class AppleFactory
 		current_delay++;
 		if(current_delay > delay)
 		{
-			Random rand = new Random();
-			switch(rand.nextInt(3))
-			{
-				case 0:
-					spawnApple(badApple);
-				break;
-				case 1:
-					spawnApple(normalApple);
-					break;
-					
-				case 2:
-					spawnApple(goodApple);
-					break;
-			}
+			createApple(spawnRectangle);
 			current_delay = 0;
 		}
 	}
+
+	public void createApple(Rectangle where) {
+		Random rand = new Random();
+		switch(rand.nextInt(3))
+		{
+			case 0:
+				spawnApple(badApple, where);
+			break;
+			case 1:
+				spawnApple(normalApple, where);
+				break;
+				
+			case 2:
+				spawnApple(goodApple, where);
+				break;
+		}
+	}
 	
-	public  void spawnApple(Apple apple)
+	private  void spawnApple(Apple apple, Rectangle where)
 	{
 		
 		Apple newApple = apple.clone();
-		newApple.setPosition(MyGame.getCoordinatesInsideRectangle(spawnRectangle));
+		newApple.setPosition(MyGame.getCoordinatesInsideRectangle(where));
 		newApple.setSpeed(new Vector2(0,-1));
 		newApple.setAcceleration(new Vector2(0,-0.025f));
 		

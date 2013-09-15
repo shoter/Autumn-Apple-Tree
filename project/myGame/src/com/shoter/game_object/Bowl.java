@@ -58,6 +58,7 @@ public class Bowl extends GameObject
 	
 	void onBowlFull()
 	{
+		player.doGoodVoice();
 		clearApples();
 	}
 	

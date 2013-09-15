@@ -41,7 +41,7 @@ public class MyGame implements ApplicationListener {
 			}
 		};
 		WindowManager.prepareToChangeWindow(new GameWindow());
-		tickTimer.scheduleTask(runTick, 0f, 1f / Float.valueOf(FRAME_PER_SECOND));
+		tickTimer.scheduleTask(runTick, 0f, 1f / Float.valueOf(FRAME_PER_SECOND), FRAME_PER_SECOND * 90);
 	}
 
 	@Override

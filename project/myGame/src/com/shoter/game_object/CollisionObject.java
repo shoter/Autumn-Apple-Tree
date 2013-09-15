@@ -148,9 +148,11 @@ public class CollisionObject extends DynamicGameObject
 	
 	void onTopCollision(CollisionObject other)
 	{
+		if(attached == false)
+			other.onTopCollided(this);
 			attached = true;
 			attachedObject = other;
-			other.onTopCollided(this);
+			
 			
 	}
 	

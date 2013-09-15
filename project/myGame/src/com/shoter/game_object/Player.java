@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.shoter.game.Game;
 import com.shoter.gfx.TextureAtlas;
 
 public class Player extends CollisionObject
@@ -23,11 +25,13 @@ public class Player extends CollisionObject
 	static int texture_change = 20;
 	int current_texture_change = 0;
 	
-	Sprite texture_i1, texture_i2, texture_j1, texture_l2;
+	Sprite texture_i1, texture_i2, texture_j1;
+	
+	Sound[] sound_ohno, sound_good, sound_jump;
 	
 	boolean turnedRight = true;
 	
-	public Player(String texture_i1, String texture_i2, String texture_j1, Vector2 position)
+	public Player(String texture_i1, String texture_i2, String texture_j1, Sound[] ohno, Sound[] good, Sound[] jump, Vector2 position)
 	{
 		super(texture_i1, position, CollisionType.DYNAMIC);
 		
@@ -36,9 +40,13 @@ public class Player extends CollisionObject
 		this.texture_j1 = new Sprite(TextureAtlas.getTexture(texture_j1));
 		
 		this.score = 0;
-		setAcceleration(new Vector2(0f, -0.2f));
+		setAcceleration(new Vector2(0f, -0.4f));
 		bowl = new Bowl(this);
 		this.mass = 1000f;
+		
+		sound_ohno = ohno;
+		sound_good = good;
+		sound_jump = jump;
 	}
 	
 	public void setKeys(int button_left, int button_right, int button_up)
@@ -68,19 +76,27 @@ public class Player extends CollisionObject
 		
 		if(Gdx.input.isKeyPressed(BUTTON_UP) && attached == true)
 		{
-			speed.y += 7.5f;
+			speed.y += 8.0f;
 			cancelAttachment();
+			doJumpVoice();
 			//setPosition(position.x, position.y);
 		}
 		bowl.Tick(appleList);
 		flipped = !turnedRight;
 		super.Tick(collisionList);
 			bowl.setPosition(position.x + rectangle.width / 2 - bowl.rectangle.width / 2, position.y + rectangle.height - 1);
+		
+			if(position.x <= 0)
+				position.x = 0;
+			if(position.x >= 640 - rectangle.width)
+				position.x = 640  - rectangle.width;
 	}
 	
 	@Override
 	void onTopCollided(CollisionObject fromWho) {
 		super.onTopCollided(fromWho);
+		//if(bowl.getAppleCount() > 0)
+			doOhNoVoice();
 		bowl.clearApples();
 	}
 	
@@ -102,6 +118,21 @@ public class Player extends CollisionObject
 	
 	@Override
 	protected void onCollision(Point2D collisionPlace, CollisionObject other) {
+	}
+	
+	public void doOhNoVoice()
+	{
+		sound_ohno[Game.rand.nextInt(sound_ohno.length)].play();
+	}
+	
+	public void doGoodVoice()
+	{
+		sound_good[Game.rand.nextInt(sound_good.length)].play();
+	}
+	
+	public void doJumpVoice()
+	{
+		sound_jump[Game.rand.nextInt(sound_jump.length)].play();
 	}
 	
 	@Override
