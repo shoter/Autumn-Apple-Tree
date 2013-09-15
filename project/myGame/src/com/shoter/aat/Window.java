@@ -14,9 +14,9 @@ import com.shoter.game_object.GameObject;
 
 public class Window
 {
-	Queue<GameObject>[] drawQueue = new Queue[10];
-	List<CollisionObject> collisionObjects = new ArrayList<CollisionObject>();
-	Color backgroundColor;
+	protected Queue<GameObject>[] drawQueue = new Queue[10];
+	protected List<CollisionObject> collisionObjects = new ArrayList<CollisionObject>();
+	protected Color backgroundColor;
 	
 	
 	

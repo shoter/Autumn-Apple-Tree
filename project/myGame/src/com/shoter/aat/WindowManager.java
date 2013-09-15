@@ -7,6 +7,7 @@ public class WindowManager
 {
 	public static Window currentWindow = null;
 	static Window nextWindow = null;
+	public static boolean end = false;
 	
 	public static void prepareToChangeWindow(Window nextWindow)
 	{

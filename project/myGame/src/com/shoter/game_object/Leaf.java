@@ -2,7 +2,6 @@ package com.shoter.game_object;
 
 import com.badlogic.gdx.math.Vector2;
 import com.shoter.game.Game;
-import com.shoter.wind.Wind;
 
 public class Leaf extends DynamicGameObject
 {

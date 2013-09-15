@@ -3,7 +3,6 @@ package com.shoter.game_object;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.aat.MyGame;
 import com.shoter.aat.Window;
 
 public class Tree extends GameObject

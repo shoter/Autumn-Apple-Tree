@@ -26,6 +26,7 @@ public class Wind
 	int windStrengthDebug[] = new int[640];
 	int windStrengthDebugY[] = new int[640];
 	int currentDebug = 0;
+	boolean windEnabled = true;
 	
 	int timeFromHeavyWindBlow = 0;
 	static int timeBetweenHeavyWindBlow = 150;
@@ -38,7 +39,7 @@ public class Wind
 			windStrengthDebugY[i] = 0;
 		}
 		
-		direction.x = rand.nextFloat() * maxStrength;
+		direction.x = rand.nextFloat() * maxStrength / 10;
 		direction.y = (rand.nextFloat() * maxStrength) / 100;
 	}
 	
@@ -72,7 +73,7 @@ public class Wind
 			
 		}
 		
-		if(isHeavyBlow())
+		if(isHeavyBlow()  && windEnabled)
 		{
 			WindBlow heavyWindBlow = generateHeavyBlow();
 			onHeavyWindBlow(heavyWindBlow.strength < 0f, heavyWindBlow);
@@ -80,8 +81,8 @@ public class Wind
 			timeFromHeavyWindBlow = 0;
 		}
 		
-		direction.x -= direction.x / 200f;
-		direction.y -= direction.y / 800f;
+		direction.x -= direction.x / (200f*(windEnabled?1f:100f));
+		direction.y -= direction.y / (800f*(windEnabled?1f:100f));
 		
 		float strength = (direction.x / maxStrength);
 		strength *= 100;
@@ -165,5 +166,15 @@ public class Wind
 				return true;
 		}
 		return false;
+	}
+	
+	public void disableWind()
+	{
+		windEnabled = false;
+	}
+	
+	public void enableWind()
+	{
+		windEnabled = true;
 	}
 }

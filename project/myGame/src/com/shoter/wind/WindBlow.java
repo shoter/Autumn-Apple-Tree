@@ -1,6 +1,5 @@
 package com.shoter.wind;
 
-import com.shoter.logger.Logger;
 
 public class WindBlow
 {

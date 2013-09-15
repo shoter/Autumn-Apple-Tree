@@ -2,7 +2,6 @@ package com.shoter.aat;
 
 import com.badlogic.gdx.InputProcessor;
 import com.shoter.game.Mouse;
-import com.shoter.logger.Logger;
 
 
 public class MyInputProcessor implements InputProcessor {

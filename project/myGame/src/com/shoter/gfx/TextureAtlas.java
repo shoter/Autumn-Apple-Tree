@@ -45,6 +45,12 @@ public class TextureAtlas
 		addTexture("envi_b3.png", "envi_b3");
 		
 		addTexture("envi_d1.png", "envi_d1");
+		
+		addTexture("play.png", "play");
+		addTexture("play_on.png", "play_on");
+		
+		addTexture("quit.png", "quit");
+		addTexture("quit_on.png", "quit_on");
 
 	}
 	

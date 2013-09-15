@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,16 +14,20 @@ import com.shoter.factories.CloudFactory;
 import com.shoter.factories.LeafFactory;
 import com.shoter.game.Game;
 import com.shoter.gfx.TextureAtlas;
+import com.shoter.logger.Logger;
+import com.shoter.menu.MenuWindow;
 
 public class MyGame implements ApplicationListener {
 	
 	private SpriteBatch batch;
 	Timer tickTimer;
-	private static int FRAME_PER_SECOND = 50;
+	public static int FRAME_PER_SECOND = 50;
 	
 	
 	@Override
 	public void create() {		
+		try
+		{
 		batch = new SpriteBatch();
 		initSingletons();
 		
@@ -40,8 +43,16 @@ public class MyGame implements ApplicationListener {
 				
 			}
 		};
-		WindowManager.prepareToChangeWindow(new GameWindow());
-		tickTimer.scheduleTask(runTick, 0f, 1f / Float.valueOf(FRAME_PER_SECOND), FRAME_PER_SECOND * 90);
+		WindowManager.prepareToChangeWindow(new MenuWindow());
+		tickTimer.scheduleTask(runTick, 0f, 1f / Float.valueOf(FRAME_PER_SECOND));
+		}
+		catch(Exception exception)
+		{
+			Logger.d("ERROR", exception.toString());
+			Logger.d("ERROR", exception.getMessage());
+			exception.printStackTrace();
+			Gdx.app.exit();
+		}
 	}
 
 	@Override
@@ -58,6 +69,8 @@ public class MyGame implements ApplicationListener {
 	{
 		WindowManager.tick();
 		Game.tick();
+		if(WindowManager.end)
+			Gdx.app.exit();
 	}
 	
 

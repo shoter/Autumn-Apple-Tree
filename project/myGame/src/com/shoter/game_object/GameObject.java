@@ -1,10 +1,8 @@
 package com.shoter.game_object;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.shoter.aat.WindowManager;
@@ -20,7 +18,7 @@ public class GameObject
 	protected Rectangle rectangle = new Rectangle(0,0,0,0);
 	float size;
 	
-	boolean flipped = true;
+	boolean flipped = false;
 	
 	
 	String texture; //for copying.

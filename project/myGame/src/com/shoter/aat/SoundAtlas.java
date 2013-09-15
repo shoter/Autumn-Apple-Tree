@@ -1,14 +1,10 @@
 package com.shoter.aat;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.shoter.logger.Logger;
 
 public class SoundAtlas

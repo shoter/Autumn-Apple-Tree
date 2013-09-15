@@ -1,7 +1,6 @@
 package com.shoter.game_object;
 
 import com.badlogic.gdx.math.Vector2;
-import com.shoter.aat.Window;
 import com.shoter.game.Game;
 
 public class Cloud extends DynamicGameObject

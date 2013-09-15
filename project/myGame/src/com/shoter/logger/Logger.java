@@ -16,7 +16,7 @@ public class Logger
 	
 	static File debugFile;
 	static PrintWriter writer;
-	static Priority current_priority = Priority.INFO;
+	static Priority current_priority = Priority.ERROR;
 	
 	public static void setLoggerFile(File file)
 	{
@@ -40,7 +40,7 @@ public class Logger
 		setLoggerFile(new File("log.txt"));
 	}
 	
-	boolean canWrite(Priority priority)
+	static boolean canWrite(Priority priority)
 	{
 		return current_priority.type <= priority.type;
 	}
@@ -50,6 +50,8 @@ public class Logger
 	{
 		if(debugFile == null)
 			setDefaultLoggerFile();
+		if(!canWrite(priority))
+			return;
 		
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
