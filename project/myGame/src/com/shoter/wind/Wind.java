@@ -57,25 +57,22 @@ public class Wind
 			direction.x += windBlow.getStrength();
 			direction.y += windBlow.getStrength() / 15f;
 			
-			if(direction.x > maxStrength)
-				direction.x = maxStrength;
-			else if(direction.x < -maxStrength)
-				direction.x = -maxStrength;
-			
-			if(direction.y > maxStrength/3)
-				direction.y = maxStrength/3;
-			else if(direction.y < -maxStrength/3)
-				direction.y = -maxStrength/3;
-			
-			
-			
 			windBlow.tick();
-			
 		}
+		
+		if(direction.x > maxStrength)
+			direction.x = maxStrength;
+		else if(direction.x < -maxStrength)
+			direction.x = -maxStrength;
+		
+		if(direction.y > maxStrength/3)
+			direction.y = maxStrength/3;
+		else if(direction.y < -maxStrength/3)
+			direction.y = -maxStrength/3;
 		
 		if(isHeavyBlow()  && windEnabled)
 		{
-			WindBlow heavyWindBlow = generateHeavyBlow();
+			HeavyWindBlow heavyWindBlow = new HeavyWindBlow();
 			onHeavyWindBlow(heavyWindBlow.strength < 0f, heavyWindBlow);
 			windBlows.add(heavyWindBlow);
 			timeFromHeavyWindBlow = 0;
@@ -92,7 +89,7 @@ public class Wind
 		if(rand.nextInt(1000) > 995)
 		{
 			Logger.i("WIATR", "Nowy wiatr " + String.valueOf(windBlows.size()));
-			windBlows.add(new WindBlow(600, (-0.5f + rand.nextFloat()) / 300f));
+			windBlows.add(new LightWindBlow());
 		}
 		currentDebug %= 640;
 		timeFromHeavyWindBlow++;
@@ -101,6 +98,37 @@ public class Wind
 	public void setListener(HeavyWindBlowListener heavyWindBlowListener)
 	{
 		this.listener = heavyWindBlowListener;
+	}
+	
+	public void onHeavyWindBlow(boolean isGoingLeft, HeavyWindBlow windBlow)
+	{
+		Sound blowSound = SoundAtlas.getSound("wind1");
+		blowSound.play();
+		Logger.i("WIATR", "Silny wiatr! Lepiej uwa¿aæ :)");
+		if(listener != null)
+			listener.onHeavyBlow(isGoingLeft);
+	}
+	
+	boolean isHeavyBlow()
+	{
+		double chance = rand.nextDouble();
+		if(timeFromHeavyWindBlow > timeBetweenHeavyWindBlow)
+		{
+			double propability = (timeFromHeavyWindBlow - timeBetweenHeavyWindBlow) / (timeBetweenHeavyWindBlow * 2);
+			if(chance < propability)
+				return true;
+		}
+		return false;
+	}
+	
+	public void disableWind()
+	{
+		windEnabled = false;
+	}
+	
+	public void enableWind()
+	{
+		windEnabled = true;
 	}
 	
 	public void debug_draw()
@@ -139,42 +167,5 @@ public class Wind
 		 
 		 }
 		 SR.end();
-	}
-	
-	public WindBlow generateHeavyBlow()
-	{
-		boolean isMinus = rand.nextBoolean();
-		return new WindBlow(180, isMinus?0.019f:-0.019f);
-	}
-	
-	public void onHeavyWindBlow(boolean isGoingLeft, WindBlow windBlow)
-	{
-		Sound blowSound = SoundAtlas.getSound("wind1");
-		blowSound.play();
-		Logger.i("WIATR", "Silny wiatr! Lepiej uwa¿aæ :)");
-		if(listener != null)
-			listener.onHeavyBlow(isGoingLeft);
-	}
-	
-	boolean isHeavyBlow()
-	{
-		double chance = rand.nextDouble();
-		if(timeFromHeavyWindBlow > timeBetweenHeavyWindBlow)
-		{
-			double propability = (timeFromHeavyWindBlow - timeBetweenHeavyWindBlow) / (timeBetweenHeavyWindBlow * 2);
-			if(chance < propability)
-				return true;
-		}
-		return false;
-	}
-	
-	public void disableWind()
-	{
-		windEnabled = false;
-	}
-	
-	public void enableWind()
-	{
-		windEnabled = true;
 	}
 }

@@ -1,6 +1,5 @@
 package com.shoter.wind;
 
-
 public class WindBlow
 {
 	float strength;
@@ -23,11 +22,9 @@ public class WindBlow
 	{
 		return currentTime >= time;
 	}
-	
 	public float getStrength()
 	{
 		//Logger.i("WIND", "Strength = " + String.valueOf(currentTime) + "//" + String.valueOf(time));
 		return (float) Math.sin(((float)currentTime/(float)time)* Math.PI)  * strength;
 	}
-
 }

@@ -342,8 +342,9 @@ public class GameWindow extends Window implements HeavyWindBlowListener, ButtonL
 	@Override
 	public void onHeavyBlow(boolean isGoingLeft) {
 		generateLeafsOnBlow(isGoingLeft);
-		for (int i = 0; i < 7; i++)
-			appleFactory.createApple(new Rectangle(120f, 480f, 400f, 300f));
+		if(!gameStopped)
+			for (int i = 0; i < 7; i++)
+				appleFactory.createApple(new Rectangle(120f, 480f, 400f, 300f));
 	}
 
 	@Override
